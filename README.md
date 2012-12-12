@@ -5,7 +5,7 @@ Lightweight JavaScript/HTML5 library
 
 ## methods
 
-> ### .addClass(class)
+### .addClass(class)
 Accepts a string or an array of strings
 #### Examples
 ```
@@ -18,7 +18,7 @@ element.addClass("something another");
 element.addClass(["something", "another"]);
 ```
 
-> ### .removeClass(class)
+### .removeClass(class)
 Accepts a string or an array of strings
 #### Examples
 ```
@@ -31,7 +31,7 @@ element.removeClass("something another");
 element.removeClass(["something", "another"]);
 ```
 
-> ### .hasClass(string)
+### .hasClass(string)
 Checks if the targeted element has the specified class. Returns boolean.
 #### Examples
 ```
