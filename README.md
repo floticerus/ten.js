@@ -1,7 +1,7 @@
 ten.js
 ======
 
-Lightweight JavaScript/HTML5 library
+A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 
 ## methods
 
