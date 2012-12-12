@@ -5,17 +5,37 @@ Lightweight JavaScript/HTML5 library
 
 ## methods
 
-> ### ten.addClass()
+> ### .addClass(class)
 > Accepts a string or an array of strings
 > #### Examples
 > ```
-> ten.addClass("something");
+> element.addClass("something");
 > ```
 > ```
-> ten.addClass("something another");
+> element.addClass("something another");
 > ```
 > ```
-> ten.addClass(["something", "another"]);
+> element.addClass(["something", "another"]);
 > ```
 
-hey 
+> ### .removeClass(class)
+> Accepts a string or an array of strings
+> #### Examples
+> ```
+> element.removeClass("something");
+> ```
+> ```
+> element.removeClass("something another");
+> ```
+> ```
+> element.removeClass(["something", "another"]);
+> ```
+
+> ### .hasClass(string)
+> Checks if the targeted element has the specified class. Returns boolean.
+> #### Examples
+> ```
+> if (element.hasClass("something")) {
+>   // it has something!
+> }
+> ```
