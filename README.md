@@ -145,7 +145,7 @@ Parameters
 
 1. `string` OR `array`
 
-Accepts a string or an array of strings. Removes the specified class(es) to the targeted element. If a string is used, spaces separate the different classes.
+Accepts a string or an array of strings. Removes the specified class(es) from the targeted element. If a string is used, spaces separate the different classes.
 >
 ```
 element.removeClass("foo");
