@@ -40,7 +40,7 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 ## Methods
 
 ### ten.each()
-Parameters
+Arguments
 
 1. `object` OR `array`
 2. `function(key,value)`
@@ -78,7 +78,7 @@ two: bar
 
 -----
 ### ten.trim()
-Parameters
+Arguments
 
 1. `string`
 
@@ -91,8 +91,12 @@ string=ten.trim(string);
 Variable `string` becomes  `foo bar`
 
 -----
-### .addClass(class)
-Accepts a string or an array of strings. Adds the specified class(es) to the targeted element.
+### .addClass()
+Arguments
+
+1. `string` OR `array`
+
+Accepts a string or an array of strings. Adds the specified class(es) to the targeted element. If a string is used, spaces separate the different classes.
 >
 ```
 element.addClass("foo");
@@ -105,7 +109,11 @@ element.addClass(["foo", "bar"]);
 ```
 
 -----
-### .each(function(key,value))
+### .each()
+Arguments
+
+1. `function(index,element)`
+
 Runs the specified function for each element selected.
 ###### Note: the `index` and `element` names can be anything
 >
@@ -118,7 +126,11 @@ foo.each(function(index,element) {
 Will log the text contents of each element with the class `foo`
 
 -----
-### .hasClass(string)
+### .hasClass()
+Arguments
+
+1. `string`
+
 Checks if the targeted element has the specified class. Returns boolean.
 >
 ```
@@ -128,8 +140,12 @@ if (element.hasClass("foo")) {
 ```
 
 -----
-### .removeClass(class)
-Accepts a string or an array of strings. Removes the specified class(es) to the targeted element.
+### .removeClass()
+Arguments
+
+1. `string` OR `array`
+
+Accepts a string or an array of strings. Removes the specified class(es) to the targeted element. If a string is used, spaces separate the different classes.
 >
 ```
 element.removeClass("foo");
@@ -143,6 +159,8 @@ element.removeClass(["foo", "bar"]);
 
 -----
 ### .text()
+No arguments
+
 Returns the text content of an element, stripping any HTML.
 >
 ```
@@ -159,8 +177,12 @@ ten.find("#foo").text();
 Will return `foobar`
 
 -----
-### .toggle(class)
-Accepts a string or an array of strings. Will toggle all of the classes provided.
+### .toggle()
+Arguments
+
+1. `string` OR `array`
+
+Accepts a string or an array of strings. Will toggle all of the classes provided. If a string is used, spaces separate the different classes.
 >
 ```
 element.toggle("foo");
