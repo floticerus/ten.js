@@ -62,18 +62,17 @@ element.addClass(["foo", "bar"]);
 ```
 
 -----
-### .removeClass(class)
-Accepts a string or an array of strings. Removes the specified class(es) to the targeted element.
+### .each(function(key,value))
+Runs the specified function for each element selected.
+###### Note: the `index` and `element` names can be anything
 >
 ```
-element.removeClass("foo");
+var foo=ten.find(".foo");
+foo.each(function(index,element) {
+  console.log(element.text());
+});
 ```
-```
-element.removeClass("foo bar");
-```
-```
-element.removeClass(["foo", "bar"]);
-```
+Will log the text contents of each element with the class `foo`
 
 -----
 ### .hasClass(string)
@@ -86,17 +85,17 @@ if (element.hasClass("foo")) {
 ```
 
 -----
-### .toggle(class)
-Accepts a string or an array of strings. Will toggle all of the classes provided.
+### .removeClass(class)
+Accepts a string or an array of strings. Removes the specified class(es) to the targeted element.
 >
 ```
-element.toggle("foo");
+element.removeClass("foo");
 ```
 ```
-element.toggle("foo bar");
+element.removeClass("foo bar");
 ```
 ```
-element.toggle(["foo", "bar"]);
+element.removeClass(["foo", "bar"]);
 ```
 
 -----
@@ -117,14 +116,15 @@ ten.find("#foo").text();
 Will return `foobar`
 
 -----
-### .each(function(key,value))
-Runs the specified function for each element selected.
-###### Note: the `index` and `element` names can be anything
+### .toggle(class)
+Accepts a string or an array of strings. Will toggle all of the classes provided.
 >
 ```
-var foo=ten.find(".foo");
-foo.each(function(index,element) {
-  console.log(element.text());
-});
+element.toggle("foo");
 ```
-Will log the text contents of each element with the class `foo`
+```
+element.toggle("foo bar");
+```
+```
+element.toggle(["foo", "bar"]);
+```
