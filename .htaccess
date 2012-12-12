@@ -1,0 +1,56 @@
+SetEnvIfNoCase User-Agent "^libwww-perl*" block_bad_bots
+Deny from env=block_bad_bots
+Options All -Indexes
+AddDefaultCharset UTF-8
+DefaultLanguage en-US
+ExpiresActive on
+ExpiresDefault "now plus 1 week"
+ExpiresByType application/javascript "now plus 1 week"
+# 1 WEEK
+<FilesMatch "\.(jpg|jpeg|png|gif|swf|ico)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+# 1 WEEK
+<FilesMatch "\.(xml|txt|css|js)$">
+Header set Cache-Control "max-age=604800, proxy-revalidate"
+AddDefaultCharset UTF-8
+DefaultLanguage en-US
+</FilesMatch>
+# 1 WEEK
+<FilesMatch "\.(html|htm|php)$">
+Header set Cache-Control "max-age=604800, private, proxy-revalidate"
+Header set Vary "Accept-encoding"
+</FilesMatch>
+<FilesMatch "sitemap.xml$">
+Header set Cache-Control "no-cache"
+Header set Expires "Mon, 01 Feb 1999 20:00:00 GMT"
+</FilesMatch>
+<IfModule mod_deflate.c>
+        # Insert filter
+        SetOutputFilter DEFLATE
+
+        # Netscape 4.x has some problems...
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+        # Netscape 4.06-4.08 have some more problems
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+        # MSIE masquerades as Netscape, but it is fine
+        # BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+        # NOTE: Due to a bug in mod_setenvif up to Apache 2.0.48
+        # the above regex won't work. You can use the following
+        # workaround to get the desired effect:
+        BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+
+        # Don't compress images
+        SetEnvIfNoCase Request_URI \
+        \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+        # Make sure proxies don't deliver the wrong content
+        Header append Vary User-Agent env=!dont-vary
+</IfModule>
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+        
+</IfModule>
