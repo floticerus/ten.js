@@ -3,6 +3,21 @@ ten.js
 
 A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 
+#Documentation
+
+- [Setup](#setup)
+- [Methods](#methods)
+ - [ten.each()]()
+ - [ten.trim()]()
+ - [.addClass()]()
+ - [.each()]()
+ - [.hasClass()]()
+ - [.removeClass()]()
+ - [.text()]()
+ - [.toggle()]()
+ - [.version]()
+- [Tips]()
+
 ## Setup
 Just link the ten.js or ten.min.js file in the head section of your website,
 or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](http://requirejs.org/),
@@ -11,7 +26,7 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 <script type="application/javascript" src="ten.min.js"></script>
 ```
 
-## methods
+## Methods
 
 ### ten.each(object/array, function(key,value))
 Iterates over an object or array, executing a function for each entry.
