@@ -17,7 +17,7 @@ element.addClass("something another");
 ```
 element.addClass(["something", "another"]);
 ```
-
+-----
 ### .removeClass(class)
 Accepts a string or an array of strings
 #### Examples
@@ -30,7 +30,7 @@ element.removeClass("something another");
 ```
 element.removeClass(["something", "another"]);
 ```
-
+-----
 ### .hasClass(string)
 Checks if the targeted element has the specified class. Returns boolean.
 #### Examples
