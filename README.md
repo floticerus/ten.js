@@ -3,7 +3,7 @@ ten.js
 
 A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 
-### Setup
+## Setup
 Just link the ten.js or ten.min.js file in the head section of your website, or use a script loader such as yepnope, RequireJS, LABjs, etc.
 ```
 <script type="application/javascript" src="ten.min.js"></script>
@@ -133,4 +133,17 @@ element.toggle("foo bar");
 ```
 ```
 element.toggle(["foo", "bar"]);
+```
+
+## Tips
+By default, ten.js uses an object called `ten`. You can also wrap your code like so, which allows the object to be
+called whatever you want.
+```
+(function($) {
+  $.ready(function() {
+    var foo=$.find("#foo"),
+        fooText=$.trim(foo.text());
+    console.log(fooText);
+  });
+})(ten);
 ```
