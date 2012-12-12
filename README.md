@@ -77,6 +77,24 @@ two: bar
 ```
 
 -----
+### ten.find()
+Parameters
+
+1. `string` (selector)
+
+Selects an element or elements based on either class or ID. Advanced CSS selectors are not implemented yet,
+but will be eventually.
+>
+```
+var foo=ten.find(".foo");
+```
+Selects all elements with the `foo` class
+```
+var bar=ten.find("#bar");
+```
+Selects the element with the ID `bar`
+
+-----
 ### ten.trim()
 Parameters
 
