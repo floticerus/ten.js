@@ -38,6 +38,16 @@ two: bar
 ```
 
 -----
+### ten.trim(string)
+Strips all leading & trailing spaces, and converts multiple spaces to a single space.
+>
+```
+var string="    foo        bar ";
+string=ten.trim(string);
+```
+Variable `string` becomes  `foo bar`
+
+-----
 ### .addClass(class)
 Accepts a string or an array of strings. Adds the specified class(es) to the targeted element.
 >
@@ -90,6 +100,23 @@ element.toggle(["foo", "bar"]);
 ```
 
 -----
+### .text()
+Returns the text content of an element, stripping any HTML.
+>
+```
+<div id="foo">
+  <ul>
+    <li>foo</li>
+    <li>bar</li>
+  </ul>
+</div>
+```
+```
+ten.find("#foo").text();
+```
+Will return `foobar`
+
+-----
 ### .each(function(key,value))
 Runs the specified function for each element selected.
 ###### Note: the `index` and `element` names can be anything
@@ -97,7 +124,7 @@ Runs the specified function for each element selected.
 ```
 var foo=ten.find(".foo");
 foo.each(function(index,element) {
-  element.addClass("bar");
+  console.log(element.text());
 });
 ```
-Will add class `bar` to all elements with the `foo` class
+Will log the text contents of each element with the class `foo`
