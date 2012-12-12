@@ -6,7 +6,7 @@ A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 #Documentation
 
 - [Setup](#setup)
-- [Methods & variables](#methods--variables)
+- [Methods](#methods)
  - [ten.each()](#teneach)
  - [ten.find()](#tenfind)
  - [ten.isArray()](#tenisarray)
@@ -37,7 +37,7 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 <script type="application/javascript" src="ten.min.js"></script>
 ```
 
-## Methods & variables
+## Methods
 
 ### ten.each()
 Parameters
