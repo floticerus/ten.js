@@ -40,7 +40,7 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 ## Methods
 
 ### ten.each()
-Arguments
+Parameters
 
 1. `object` OR `array`
 2. `function(key,value)`
@@ -78,7 +78,7 @@ two: bar
 
 -----
 ### ten.trim()
-Arguments
+Parameters
 
 1. `string`
 
@@ -92,7 +92,7 @@ Variable `string` becomes  `foo bar`
 
 -----
 ### .addClass()
-Arguments
+Parameters
 
 1. `string` OR `array`
 
@@ -110,7 +110,7 @@ element.addClass(["foo", "bar"]);
 
 -----
 ### .each()
-Arguments
+Parameters
 
 1. `function(index,element)`
 
@@ -127,7 +127,7 @@ Will log the text contents of each element with the class `foo`
 
 -----
 ### .hasClass()
-Arguments
+Parameters
 
 1. `string`
 
@@ -141,7 +141,7 @@ if (element.hasClass("foo")) {
 
 -----
 ### .removeClass()
-Arguments
+Parameters
 
 1. `string` OR `array`
 
@@ -159,7 +159,7 @@ element.removeClass(["foo", "bar"]);
 
 -----
 ### .text()
-No arguments
+No parameters
 
 Returns the text content of an element, stripping any HTML.
 >
@@ -178,7 +178,7 @@ Will return `foobar`
 
 -----
 ### .toggle()
-Arguments
+Parameters
 
 1. `string` OR `array`
 
