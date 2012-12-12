@@ -6,7 +6,7 @@ A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 #Documentation
 
 - [Setup](#setup)
-- [Methods & variables](#methods)
+- [Methods & variables](#methods--variables)
  - [ten.each()](#teneach)
  - [ten.find()](#tenfind)
  - [ten.isArray()](#tenisarray)
