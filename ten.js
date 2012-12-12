@@ -137,7 +137,7 @@
 			return ten.isString(string)?string.replace(/(^\s+|\s+$)/g,"").replace(/\s\s+/g," "):doLog("trim","invalid parameters");
 		},
 		ease:function(num) {
-			if (ten.isNumeric) {
+			if (ten.isNumeric(num)) {
 				var ret=true;
 				// do ease function here
 
