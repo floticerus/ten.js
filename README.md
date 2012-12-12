@@ -5,6 +5,7 @@ A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 
 #Documentation
 
+- [Performance](#performance)
 - [Compatibility](#compatibility)
 - [Setup](#setup)
 - [Methods](#methods)
