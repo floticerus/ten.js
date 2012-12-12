@@ -1,5 +1,9 @@
-/** @license ten.js - lightweight JavaScript/HTML5 library - (c) 2012 - Kevin von Flotow */
-(function(window) {
+/** @preserve
+ ten.js - lightweight JavaScript/HTML5 library
+ @copyright 2012 Kevin von Flotow <vonflow@gmail.com>
+ @license MIT License <http://opensource.org/licenses/MIT>
+ */
+;(function() {
 	function doLog(name,message) {
 		console.log("ten."+name+"(): "+message);
 	}
@@ -148,4 +152,4 @@
 		}
 	};
 	/* typeof $=="undefined"&&($=ten); */
-})(window);
+})();
