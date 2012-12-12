@@ -3,6 +3,12 @@ ten.js
 
 A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 
+### Setup
+Just link the ten.js or ten.min.js file in the head section of your website, or use a script loader such as yepnope, RequireJS, LABjs, etc.
+```
+<script type="application/javascript" src="ten.min.js"></script>
+```
+
 ## methods
 
 ### ten.each(object/array, function(key,value))
