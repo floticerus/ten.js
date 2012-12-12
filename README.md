@@ -39,7 +39,10 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 
 ## Methods
 
-### ten.each(object/array, function(key,value))
+### ten.each()
+Parameters
+1 `object` OR `array`
+2 `function(key,value)`
 Iterates over an object or array, executing a function for each entry.
 ###### Note: the `key` and `value` names can be anything
 >
@@ -72,7 +75,9 @@ two: bar
 ```
 
 -----
-### ten.trim(string)
+### ten.trim()
+Parameters
+1 `string`
 Strips all leading & trailing spaces, and converts multiple spaces to a single space.
 >
 ```
