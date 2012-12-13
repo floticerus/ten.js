@@ -36,12 +36,12 @@ Modular additions will come in the future.
 - [Tips](#tips)
 
 ## Performance
-I am currently looking for developers who are interested in performance testing. The goal of ten.js is to outperform (or at least match) other JavaScript libraries, while maintaining a high level of functionality.
+The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. Currently looking for developers who are interested in performance testing.
 
 ## Compatibility
-ten.js is tested primarily on Google Chrome, but also works with recent versions of Firefox, Opera, Safari, Android, and iPhone. To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although it might work with IE10.
+ten.js is tested primarily to work with newer versions of Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
 
-If there is a demand for Internet Explorer compatibility, it may be included in the future.
+To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although it might work with IE10. If there is demand for Internet Explorer compatibility, it may be included in the future.
 
 ## Setup
 Just link the ten.js or ten.min.js file in the head section of your website,
