@@ -5,7 +5,7 @@
  */
 (function() {
 	ten={
-		version:"0.0.2",
+		version:"0.0.3",
 		ajax:function(config) {
 			var opt={
 					url:false,
