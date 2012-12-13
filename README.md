@@ -5,6 +5,14 @@ A lightweight (1.4kb minified & gzipped) JavaScript/HTML5 library. Work began on
 
 Modular additions will come in the future.
 
+## Performance
+The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. Currently looking for developers who are interested in performance testing.
+
+## Compatibility
+ten.js is tested primarily to work with newer versions of Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
+
+To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although it might work with IE10. If there is demand for Internet Explorer compatibility, it may be included in the future.
+
 #Documentation
 
 - [Performance](#performance)
@@ -34,14 +42,6 @@ Modular additions will come in the future.
  - [.toggle()](#toggle)
  - [.version](#version)
 - [Tips](#tips)
-
-## Performance
-The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. Currently looking for developers who are interested in performance testing.
-
-## Compatibility
-ten.js is tested primarily to work with newer versions of Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
-
-To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although it might work with IE10. If there is demand for Internet Explorer compatibility, it may be included in the future.
 
 ## Setup
 Just link the ten.js or ten.min.js file in the head section of your website,
