@@ -311,13 +311,11 @@ Parameters
 Appends the string or strings to the end of the targeted element.
 > ```
 > var element=ten.find("#foo");
-> element.append('<div class="bar">some div</div>');
-> ```
-> Appends a div with the class bar to the end of the element with the id foo
-> ```
+> element.append('<div>some div</div>');// appends a div to the end of the targeted element
+> 
 > var element=ten.find("#foo"),
 >     arr=['<div>some div</div>','<div>another div</div>'];
-> element.append(arr); // appends two divs to the end of the element
+> element.append(arr); // appends two divs to the end of the targeted element
 > ```
 
 -----
