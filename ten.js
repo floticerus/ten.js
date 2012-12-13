@@ -3,12 +3,61 @@
  @copyright 2012 Kevin von Flotow <vonflow@gmail.com>
  @license MIT License <http://opensource.org/licenses/MIT>
  */
-;(function() {
-	function doLog(name,message) {
-		console.log("ten."+name+"(): "+message);
-	}
+(function() {
 	ten={
-		version:"0.0.1",
+		version:"0.0.2",
+		ajax:function(config) {
+			var opt={
+					url:false,
+					type:"GET",
+					data:false,
+					dataType:"json",
+					success:false,
+					error:false,
+					complete:false
+				},
+				dataTypes={
+					json:"application/json"
+				};
+			opt=ten.extend(opt,config);
+			console.log(opt);
+			var req=new XMLHttpRequest();
+			var url="/json.php?foo=bar";
+			req.open(opt.type,url,true);
+			req.setRequestHeader("Content-Type", dataTypes[opt.dataType]+";charset=UTF-8");
+			req.send();
+			/* if (ten.isObject(obj)) {
+
+			} else {
+				doLog("ajax","parameter must be an object");
+			} */
+		},
+		length:function(obj) {
+			if (ten.isObject(obj)) {
+				var size=0,key;
+				for (key in obj) {
+					obj.hasOwnProperty(key)&&size++;
+				}
+			} else {
+				doLog("length","argument must be an object");
+			}
+			return ten.isNumeric(size)?size:false;
+		},
+		extend:function() {
+			var first=arguments.length>0?arguments[0]:doLog("extend","no arguments given");
+			if (arguments.length>=2) {
+				var ret=true;
+				arguments=Array.prototype.slice.call(arguments,1);
+				ten.each(arguments,function(key,val) {
+					ten.each(val,function(target,value) {
+						first[target]=value;
+					});
+				});
+			} else {
+				doLog("extend","must have at least 2 arguments");
+			}
+			return ten.isDefined(ret)?first:false;
+		},
 		ready:function(func) {
 			document.addEventListener("DOMContentLoaded",func,false);
 		},
@@ -107,15 +156,23 @@
 			// finished building the object, return the element
 			return element;
 		},
-		each:function(array,func) {
+		each:function(data,func) {
 			var ret=false;
-			if ((ten.isArray(array) || ten.isObject(array)) && ten.isFunction(func)) {
-				for (var i=0;i<array.length;i++) {
-					func(i,array[i]);
+			if (ten.isFunction(func)) {
+				if (ten.isArray(data)) {
+					ret=true;
+					for (var i=0;i<data.length;i++) {
+						func(i,data[i]);
+					}
+				} else if (ten.isObject(data)) {
+					ret=true;
+					for (var i=0;i<ten.length(data);i++) {
+						var key=Object.keys(data)[i];
+						func(key,data[key]);
+					}
 				}
-				ret=true;
 			} else {
-				doLog("each","invalid parameters");
+				doLog("each","2nd argument expects function");
 			}
 			return ret;
 		},
@@ -137,8 +194,18 @@
 		isNumeric:function(num) {
 			return !isNaN(parseFloat(num)) && isFinite(num);
 		},
-		trim:function(string) {
-			return ten.isString(string)?string.replace(/(^\s+|\s+$)/g,"").replace(/\s\s+/g," "):doLog("trim","invalid parameters");
+		trim:function(data) {
+			function doTrim(str) {
+				return str.replace(/(^\s+|\s+$)/g,"").replace(/\s\s+/g," ");
+			}
+			if (ten.isString(data)) {
+				data=doTrim(data);
+			} else if (ten.isArray(data)) {
+				ten.each(data,function(key,val) {
+					ten.isString(val)&&(data[key]=doTrim(val));
+				});
+			}
+			return data;
 		},
 		ease:function(num) {
 			if (ten.isNumeric(num)) {
@@ -151,5 +218,7 @@
 			return ten.isDefined(ret);
 		}
 	};
-	/* typeof $=="undefined"&&($=ten); */
+	function doLog(name,message) {
+		console.log("ten."+name+"(): "+message);
+	}
 })();
