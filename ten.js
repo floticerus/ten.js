@@ -65,12 +65,16 @@
 			document.addEventListener("DOMContentLoaded",func,false);
 		},
 		find:function(theId) {
-			var that=theId.replace(/^(?:#|\.)(.*?)$/,"$1"),
-				element={};
-			if (theId.indexOf("#")===0) {
-				element=document.getElementById(that);
-			} else if (theId.indexOf(".")===0) {
-				element=document.getElementsByClassName(that);
+			var element={};
+			if (theId.nodeName) {
+				element=theId;
+			} else {
+				var that=theId.replace(/^(?:#|\.)(.*?)$/,"$1");
+				if (theId.indexOf("#")===0) {
+					element=document.getElementById(that);
+				} else if (theId.indexOf(".")===0) {
+					element=document.getElementsByClassName(that);
+				}
 			}
 
 			//****************************
@@ -104,8 +108,9 @@
 					return that;
 				}
 				element.each=function(func) {
+					var keys=Object.keys(this);
 					for (var i=0;i<this.length;i++) {
-						func(Object.keys(this)[i],this[i]);
+						func(keys[i],ten.find(this[i]));
 					}
 				}
 				element.addClass=function(classes) {
