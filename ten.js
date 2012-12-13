@@ -4,6 +4,9 @@
  @license MIT License <http://opensource.org/licenses/MIT>
  */
 (function() {
+	function doLog(name,message) {
+		console.log("ten."+name+"(): "+message);
+	}
 	ten={
 		version:"0.0.3",
 		ajax:function(config) {
@@ -218,7 +221,4 @@
 			return ten.isDefined(ret);
 		}
 	};
-	function doLog(name,message) {
-		console.log("ten."+name+"(): "+message);
-	}
 })();
