@@ -3,6 +3,8 @@ ten.js
 
 A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
 
+Modular additions will come in the future.
+
 #Documentation
 
 - [Performance](#performance)
@@ -108,15 +110,21 @@ Selects the element with the ID `bar`
 ### ten.trim()
 Parameters
 
-1. `string`
+1. `string` OR `array`
 
 Strips all leading & trailing spaces, and converts multiple spaces to a single space.
+If an array is given, it will convert all strings within the array.
 >
 ```
 var string="    foo        bar ";
 string=ten.trim(string);
 ```
-Variable `string` becomes  `foo bar`
+`string` becomes  `foo bar`
+```
+var array=["    foo  ","   foo       bar "];
+array=ten.trim(array);
+```
+`array` becomes `["foo","foo bar"]`
 
 -----
 ### .addClass()
