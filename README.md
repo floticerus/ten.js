@@ -146,7 +146,7 @@ Selects the element with the ID `bar`
 ### ten.isArray()
 Parameters
 
-1. `object`
+1. `var`
 
 Returns true if the argument is a numeric array.
 > ```
@@ -167,8 +167,6 @@ Returns true if the argument is defined.
 > var str="i am defined";
 > if (ten.isDefined(str)) {
 >   // it's defined, do something here
-> } else {
->   // otherwise,do this
 > }
 > ```
 
@@ -186,8 +184,6 @@ Returns true if the argument is a function.
 > }
 > if (ten.isFunction(func)) {
 >   // it's a function, do something here
-> } else {
->   // otherwise,do this
 > }
 > ```
 
@@ -202,8 +198,6 @@ Returns true if the argument is a number.
 > var num=5;
 > if (ten.isNumeric(num)) {
 >   // it's a number, do something here
-> } else {
->   // otherwise,do this
 > }
 > ```
 
@@ -218,8 +212,6 @@ Returns true if the argument is an object.
 > var obj={foo:"bar"};
 > if (ten.isObject(obj)) {
 >   // it's an object, do something here
-> } else {
->   // otherwise,do this
 > }
 > ```
 
@@ -234,8 +226,6 @@ Returns true if the argument is a string.
 > var str="i am the string";
 > if (ten.isString(str)) {
 >   // it's a string, do something here
-> } else {
->   // otherwise,do this
 > }
 > ```
 
@@ -311,7 +301,7 @@ Parameters
 Appends the string or strings to the end of the targeted element.
 > ```
 > var element=ten.find("#foo");
-> element.append('<div>some div</div>');// appends a div to the end of the targeted element
+> element.append('<div>some div</div>'); // appends a div to the end of the targeted element
 > 
 > var element=ten.find("#foo"),
 >     arr=['<div>some div</div>','<div>another div</div>'];
