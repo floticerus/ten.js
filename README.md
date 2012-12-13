@@ -15,10 +15,8 @@ To keep the code as small and simple as possible, compatibility with Internet Ex
 
 #Documentation
 
-- [Performance](#performance)
-- [Compatibility](#compatibility)
 - [Setup](#setup)
-- [Methods](#methods)
+- [API](#api)
  - [ten.each()](#teneach)
  - [ten.extend()](#tenextend)
  - [ten.find()](#tenfind)
@@ -51,7 +49,7 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 <script type="application/javascript" src="ten.min.js"></script>
 ```
 
-## Methods
+## API
 
 ### ten.each()
 Parameters
