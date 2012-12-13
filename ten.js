@@ -6,6 +6,7 @@
 (function() {
 	function doLog(name,message) {
 		console.log("ten."+name+"(): "+message);
+		return false;
 	}
 	ten={
 		version:"0.0.3",
@@ -23,7 +24,6 @@
 					json:"application/json"
 				};
 			opt=ten.extend(opt,config);
-			console.log(opt);
 			var req=new XMLHttpRequest();
 			var url="/json.php?foo=bar";
 			req.open(opt.type,url,true);
@@ -48,14 +48,14 @@
 		},
 		extend:function() {
 			var first=arguments.length>0?arguments[0]:doLog("extend","no arguments given");
-			if (arguments.length>=2) {
+			if (first!==false && arguments.length>=2) {
 				var ret=true;
 				arguments=Array.prototype.slice.call(arguments,1);
-				ten.each(arguments,function(key,val) {
-					ten.each(val,function(target,value) {
+				for (var i=0;i<arguments.length;i++) {
+					ten.each(arguments[i],function(target,value) {
 						first[target]=value;
 					});
-				});
+				}
 			} else {
 				doLog("extend","must have at least 2 arguments");
 			}
@@ -128,13 +128,13 @@
 				function manipulateHtml(that,content,which) {
 					ten.isString(content)&&(content=[content]);
 					if (ten.isArray(content)) {
-						ten.each(content,function(key,val) {
+						for (var i=0;i<content.length;i++) {
 							that.innerHTML=
-								which=="append"?that.innerHTML+val:(
-								which=="prepend"?val+that.innerHTML:(
-								which=="html"&&val)
+								which=="append"?that.innerHTML+content[i]:(
+								which=="prepend"?content[i]+that.innerHTML:(
+								which=="html"&&content[i])
 							);
-						});
+						}
 					} else {
 						doLog(which,"invalid parameters");
 					}
@@ -169,10 +169,11 @@
 					}
 				} else if (ten.isObject(data)) {
 					ret=true;
-					for (var i=0;i<ten.length(data);i++) {
-						var key=Object.keys(data)[i];
+					for (key in data) {
 						func(key,data[key]);
 					}
+				} else {
+					doLog("each","1st argument expects object or array");
 				}
 			} else {
 				doLog("each","2nd argument expects function");
