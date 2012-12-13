@@ -97,31 +97,31 @@ Parameters
 1. `object` to extend
 
 Extends any additional arguments to the first `object` provided. All arguments must be an `object`.
->
-```
-var obj={
-      foo:"bar",
-      some:"more",
-      and:"another"
-    },
-    add1={
-      add1:true
-    },
-    add2={
-      foo:"barred"
-    };
-
-obj=ten.extend(obj,add1,add2);
-```
-`obj` becomes
-```
-{
-  foo:"barred",
-  some:"more",
-  and:"another",
-  add1:true
-}
-```
+> 
+> ```
+> var obj={
+>       foo:"bar",
+>       some:"more",
+>       and:"another"
+>     },
+>     add1={
+>       add1:true
+>     },
+>     add2={
+>       foo:"barred"
+>     };
+> 
+> obj=ten.extend(obj,add1,add2);
+> ```
+> `obj` becomes
+> ```
+> {
+>   foo:"barred",
+>   some:"more",
+>   and:"another",
+>   add1:true
+> }
+> ```
 
 -----
 ### ten.find()
