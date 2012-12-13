@@ -59,34 +59,33 @@ Parameters
 
 Iterates over an object or array, executing a function for each entry.
 ###### Note: the `key` and `value` names can be anything
->
-```
-var array=["foo","bar"];
-ten.each(array, function(key,value) {
-  element.append("<div>" + key + ": " + value + "</div>");
-});
-```
-Will append to the element
-```
-0: foo
-1: bar
-```
->
-The same applies to objects
-```
-var object={
-  one:"foo",
-  two:"bar"
-}
-ten.each(object,function(key,value) {
-  element.append("<div>" + key + ": " + value + "</div>");
-});
-```
-Will append to the element
-```
-one: foo
-two: bar
-```
+> ```
+> var array=["foo","bar"];
+> ten.each(array, function(key,value) {
+>   element.append("<div>" + key + ": " + value + "</div>");
+> });
+> ```
+> Will append to the element
+> ```
+> 0: foo
+> 1: bar
+> ```
+
+> The same applies to objects
+> ```
+> var object={
+>   one:"foo",
+>   two:"bar"
+> }
+> ten.each(object,function(key,value) {
+>   element.append("<div>" + key + ": " + value + "</div>");
+> });
+> ```
+> Will append to the element
+> ```
+> one: foo
+> two: bar
+> ```
 
 -----
 ### ten.extend()
@@ -130,15 +129,11 @@ Parameters
 
 Selects an element or elements based on either class or ID. Advanced CSS selectors are not implemented yet,
 but will be eventually.
->
-```
-var foo=ten.find(".foo");
-```
-Selects all elements with the `foo` class
-```
-var bar=ten.find("#bar");
-```
-Selects the element with the ID `bar`
+> ```
+> var foo=ten.find(".foo"); // selects all elements with the `foo` class
+> 
+> var bar=ten.find("#bar"); // selects the element with the ID `bar`
+> ```
 
 -----
 ### ten.isArray()
@@ -260,17 +255,16 @@ Parameters
 
 Strips all leading & trailing spaces, and converts multiple spaces to a single space.
 If an array is given, it will convert all strings within the array.
->
-```
-var string="    foo        bar ";
-string=ten.trim(string);
-```
-`string` becomes  `foo bar`
-```
-var array=["    foo  ","   foo       bar "];
-array=ten.trim(array);
-```
-`array` becomes `["foo","foo bar"]`
+> ```
+> var string="    foo        bar ";
+> string=ten.trim(string);
+> ```
+> `string` becomes  `foo bar`
+> ```
+> var array=["    foo  ","   foo       bar "];
+> array=ten.trim(array);
+> ```
+> `array` becomes `["foo","foo bar"]`
 
 -----
 ### .addClass()
@@ -279,16 +273,15 @@ Parameters
 1. `string` OR `array`
 
 Accepts a string or an array of strings. Adds the specified class(es) to the targeted element. If a string is used, spaces separate the different classes.
->
-```
-element.addClass("foo");
-```
-```
-element.addClass("foo bar");
-```
-```
-element.addClass(["foo", "bar"]);
-```
+> ```
+> element.addClass("foo");
+> ```
+> ```
+> element.addClass("foo bar");
+> ```
+> ```
+> element.addClass(["foo", "bar"]);
+> ```
 
 -----
 ### .append()
@@ -314,14 +307,12 @@ Parameters
 
 Runs the specified function for each element selected.
 ###### Note: the `index` and `element` names can be anything
->
-```
-var foo=ten.find(".foo");
-foo.each(function(index,element) {
-  console.log(element.text());
-});
-```
-Will log the text contents of each element with the class `foo`
+> ```
+> var foo=ten.find(".foo");
+> foo.each(function(index,element) {
+>   console.log(element.text()); // logs the text contents of each element with the class `foo`
+> });
+> ```
 
 -----
 ### .hasClass()
@@ -330,12 +321,51 @@ Parameters
 1. `string`
 
 Checks if the targeted element has the specified class. Returns boolean.
->
-```
-if (element.hasClass("foo")) {
- // it has foo!
-}
-```
+> ```
+> if (element.hasClass("foo")) {
+>  // it has foo!
+> }
+> ```
+
+-----
+### .html()
+Parameters
+
+1. `string` (optional)
+
+Erases the current HTML within the element and replaces it with the `string` provided. If no argument is given, it will return the current HTML within the element.
+> ```
+> var element=ten.find("#foo");
+> element.html("<span>bar</span>"); // replaces the current HTML within the element with a `span` element
+> ```
+> 
+> ```
+> <div id="foo">
+>   <span>bar</span>
+> </div>
+> 
+> <script type="application/javascript">
+>   var element=ten.find("#foo");
+>   console.log(element.html()); // logs "<span>bar</span>"
+> </script>
+> 
+> ```
+
+-----
+### .prepend()
+Parameters
+
+1. `string` OR `array`
+
+Inserts the string or strings at the beginning of the targeted element.
+> ```
+> var element=ten.find("#foo");
+> element.prepend('<div>some div</div>'); // prepends a div at the beginning of the targeted element
+> 
+> var element=ten.find("#foo"),
+>     arr=['<div>some div</div>','<div>another div</div>'];
+> element.prepend(arr); // prepends two divs at the beginning of the targeted element
+> ```
 
 -----
 ### .removeClass()
@@ -344,35 +374,33 @@ Parameters
 1. `string` OR `array`
 
 Accepts a string or an array of strings. Removes the specified class(es) from the targeted element. If a string is used, spaces separate the different classes.
->
-```
-element.removeClass("foo");
-```
-```
-element.removeClass("foo bar");
-```
-```
-element.removeClass(["foo", "bar"]);
-```
+> ```
+> element.removeClass("foo");
+> ```
+> ```
+> element.removeClass("foo bar");
+> ```
+> ```
+> element.removeClass(["foo", "bar"]);
+> ```
 
 -----
 ### .text()
 No parameters
 
 Returns the text content of an element, stripping any HTML.
->
-```
-<div id="foo">
-  <ul>
-    <li>foo</li>
-    <li>bar</li>
-  </ul>
-</div>
-```
-```
-ten.find("#foo").text();
-```
-Will return `foobar`
+> ```
+> <div id="foo">
+>   <ul>
+>     <li>foo</li>
+>     <li>bar</li>
+>   </ul>
+> </div>
+> ```
+> ```
+> ten.find("#foo").text();
+> ```
+> Will return `foobar`
 
 -----
 ### .toggle()
@@ -381,16 +409,22 @@ Parameters
 1. `string` OR `array`
 
 Accepts a string or an array of strings. Will toggle all of the classes provided. If a string is used, spaces separate the different classes.
->
-```
-element.toggle("foo");
-```
-```
-element.toggle("foo bar");
-```
-```
-element.toggle(["foo", "bar"]);
-```
+> ```
+> element.toggle("foo");
+> ```
+> ```
+> element.toggle("foo bar");
+> ```
+> ```
+> element.toggle(["foo", "bar"]);
+> ```
+
+-----
+### .version
+Returns the version of ten.js as a `string`.
+> ```
+> console.log(ten.version); // logs the version. eg. "0.0.3"
+> ```
 
 ## Tips
 By default, ten.js uses an object called `ten`. You can also wrap your code like so, which allows the object to be
