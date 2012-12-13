@@ -95,6 +95,7 @@ two: bar
 Parameters
 
 1. `object` to extend
+2. any additional `object` - comma separated
 
 Extends any additional arguments to the first `object` provided. All arguments must be an `object`.
 > 
@@ -142,6 +143,128 @@ var bar=ten.find("#bar");
 Selects the element with the ID `bar`
 
 -----
+### ten.isArray()
+Parameters
+
+1. `object`
+
+Returns true if the argument is a numeric array.
+> ```
+> var arr=["foo","bar"];
+> if (ten.isArray(arr)) {
+>   // it's an array, do something here
+> }
+> ```
+
+-----
+### ten.isDefined()
+Parameters
+
+1. `var`
+
+Returns true if the argument is defined.
+> ```
+> var str="i am defined";
+> if (ten.isDefined(str)) {
+>   // it's defined, do something here
+> } else {
+>   // otherwise,do this
+> }
+> ```
+
+-----
+### ten.isFunction()
+Parameters
+
+1. `var`
+
+Returns true if the argument is a function.
+> ```
+> var func=someFunction;
+> function someFunction() {
+>   return "i am the function";
+> }
+> if (ten.isFunction(func)) {
+>   // it's a function, do something here
+> } else {
+>   // otherwise,do this
+> }
+> ```
+
+-----
+### ten.isNumeric()
+Parameters
+
+1. `var`
+
+Returns true if the argument is a number.
+> ```
+> var num=5;
+> if (ten.isNumeric(num)) {
+>   // it's a number, do something here
+> } else {
+>   // otherwise,do this
+> }
+> ```
+
+-----
+### ten.isObject()
+Parameters
+
+1. `var`
+
+Returns true if the argument is an object.
+> ```
+> var obj={foo:"bar"};
+> if (ten.isObject(obj)) {
+>   // it's an object, do something here
+> } else {
+>   // otherwise,do this
+> }
+> ```
+
+-----
+### ten.isString()
+Parameters
+
+1. `var`
+
+Returns true if the argument is a string.
+> ```
+> var str="i am the string";
+> if (ten.isString(str)) {
+>   // it's a string, do something here
+> } else {
+>   // otherwise,do this
+> }
+> ```
+
+-----
+### ten.length()
+Parameters
+
+1. `object`
+
+Returns the length of an object, equivalent to `.length` for arrays.
+> ```
+> var obj={foo:"bar",food:"barred"},
+>     objLength=obj.length(); // objLength will be set to 2
+> ```
+
+-----
+### ten.ready()
+Parameters
+
+1. `function`
+
+Executes the provided function when the DOM is fully loaded.
+> ```
+> ten.ready(function() {
+>   console.log("page is loaded");
+> });
+> ```
+
+-----
 ### ten.trim()
 Parameters
 
@@ -178,6 +301,24 @@ element.addClass("foo bar");
 ```
 element.addClass(["foo", "bar"]);
 ```
+
+-----
+### .append()
+Parameters
+
+1. `string` OR `array`
+
+Appends the string or strings to the end of the targeted element.
+> ```
+> var element=ten.find("#foo");
+> element.append('<div class="bar">some div</div>');
+> ```
+> Appends a div with the class bar to the end of the element with the id foo
+> ```
+> var element=ten.find("#foo"),
+>     arr=['<div>some div</div>','<div>another div</div>'];
+> element.append(arr); // appends two divs to the end of the element
+> ```
 
 -----
 ### .each()
