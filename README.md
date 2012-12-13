@@ -1,4 +1,4 @@
-ten.js (version 0.0.3)
+ten.js
 ======
 
 A lightweight JavaScript/HTML5 library. Work began on December 10th, 2012.
