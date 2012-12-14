@@ -44,7 +44,7 @@
 			} else {
 				doLog("length","argument must be an object");
 			}
-			return ten.isNumeric(size)?size:false;
+			return ten.isDefined(size)?size:false;
 		},
 		extend:function() {
 			var first=arguments.length>0?arguments[0]:doLog("extend","no arguments given");
@@ -134,11 +134,7 @@
 					ten.isString(content)&&(content=[content]);
 					if (ten.isArray(content)) {
 						for (var i=0;i<content.length;i++) {
-							that.innerHTML=
-								which=="append"?that.innerHTML+content[i]:(
-								which=="prepend"?content[i]+that.innerHTML:(
-								which=="html"&&content[i])
-							);
+							that.innerHTML=which=="append"?that.innerHTML+content[i]:(which=="prepend"&&content[i]+that.innerHTML);
 						}
 					} else {
 						doLog(which,"invalid parameters");
@@ -152,7 +148,7 @@
 					return manipulateHtml(this,content,"prepend");
 				}
 				element.html=function(content) {
-					return content?manipulateHtml(this,content,"html"):this.innerHTML;
+					return content?(this.innerHTML=ten.isString(content)?content:ten.isArray(content)?content.join(""):doLog("html","argument expects a string or array"),this):this.innerHTML;
 				}
 			// end HTML MANIPULATION
 			//****************************
