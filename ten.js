@@ -66,9 +66,10 @@
 		},
 		find:function(theId) {
 			var element={};
-			if (theId.nodeName) {
+			if (!ten.isString(theId)) {
 				element=theId;
 			} else {
+				// element=zest(theId);
 				var that=theId.replace(/^(?:#|\.)(.*?)$/,"$1");
 				if (theId.indexOf("#")===0) {
 					element=document.getElementById(that);
@@ -76,53 +77,39 @@
 					element=document.getElementsByClassName(that);
 				}
 			}
+			var proto=element.__proto__;
 
 			//****************************
 			// begin CLASS HANDLING
 				function doClasses(that,classes,which) {
-					function doIt(what) {
-						var classlist=what.classList;
-						ten.isString(classes)&&(classes=classes.split(" "));
-						if (ten.isArray(classes)) {
-							for (var i=0;i<classes.length;i++) {
-								var thisClass=ten.trim(classes[i]);
-								if (which=="add") {
-									classlist.add(thisClass);
-								} else if (which=="remove") {
-									classlist.remove(thisClass);
-								} else if (which=="toggle") {
-									classlist.toggle(thisClass);
-								}
-							}
-						} else {
-							// unaccepted input, must be string or array
-						}
-					}
-					if (that.length>0) {
-						that.each(function(key,val) {
-							doIt(val);
+					var classlist=that.classList;
+					if (ten.isArray(classes)) {
+						ten.each(classes,function(key,val) {
+							classlist[which](val);
 						});
+					} else if (ten.isString(classes)) {
+						classlist[which](classes);
 					} else {
-						doIt(that);
+						// classes must be string or array
 					}
 					return that;
 				}
-				element.each=function(func) {
+				proto.each=function(func) {
 					var keys=Object.keys(this);
 					for (var i=0;i<this.length;i++) {
 						func(keys[i],ten.find(this[i]));
 					}
 				}
-				element.addClass=function(classes) {
+				proto.addClass=function(classes) {
 					return doClasses(this,classes,"add");
 				}
-				element.removeClass=function(classes) {
+				proto.removeClass=function(classes) {
 					return doClasses(this,classes,"remove");
 				}
-				element.toggle=function(classes) {
+				proto.toggle=function(classes) {
 					return doClasses(this,classes,"toggle");
 				}
-				element.hasClass=function(theClass) {
+				proto.hasClass=function(theClass) {
 					return this.classList.contains(theClass);
 				}
 			// end CLASS HANDLING
@@ -141,19 +128,19 @@
 					}
 					return that;
 				}
-				element.append=function(content) {
+				proto.append=function(content) {
 					return manipulateHtml(this,content,"append");
 				}
-				element.prepend=function(content) {
+				proto.prepend=function(content) {
 					return manipulateHtml(this,content,"prepend");
 				}
-				element.html=function(content) {
+				proto.html=function(content) {
 					return content?(this.innerHTML=ten.isString(content)?content:ten.isArray(content)?content.join(""):doLog("html","argument expects a string or array"),this):this.innerHTML;
 				}
 			// end HTML MANIPULATION
 			//****************************
 
-				element.text=function() {
+				proto.text=function() {
 					return ten.trim(this.innerHTML.replace(/<.*?>/g," "));
 				}
 

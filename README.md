@@ -1,17 +1,26 @@
 ten.js
 ======
 
-A lightweight (1.4kb minified & gzipped) JavaScript/HTML5 library. Work began on December 10th, 2012.
+An open-source and lightweight (1.4kb minified & gzipped) JavaScript/HTML5 library. Work began on December 10th, 2012.
 
 Modular additions will come in the future.
 
-### Performance
-The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. Currently looking for developers who are interested in performance testing.
+## Performance
+The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. The testing done so far has shown that ten.js is often at least twice as fast as similar libraries (though this is not always the case). Testing has been done against jQuery, jqMobi, and Zepto. 
 
-### Compatibility
+## Compatibility
 ten.js is primarily intended to work with Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
 
 To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although it might work with IE10. If there is demand for compatibility, it may be included in the future.
+
+## Contribute
+### CSS selectors
+ten.js is in dire need of a CSS selector engine. The ones I have checked out (Sizzle and Zest) are both larger than I would like, and Zest as-is throws warnings in Google Closure Compiler.
+
+So, what we need most is very lightweight, error-free CSS selector functionality. Minified filesize should be at maximum 5kb, with performance on par with Sizzle and other CSS selector engines. It does not need to be as complete as the heavy-weights, but should cover most selectors that are commonly used. If you know of an engine which is fitting, or would like to help build our own, PLEASE get in touch.
+
+### Performance testing
+My knowledge and patience with performance testing is limited. If you are at all interested in testing ten.js performance against other libraries (such as jQuery, jqMobi, Zepto, ExtJS, Prototype, etc), your help would be greatly appreciated.
 
 #Documentation
 
