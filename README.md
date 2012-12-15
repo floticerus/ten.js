@@ -15,9 +15,7 @@ To keep the code as small and simple as possible, compatibility with Internet Ex
 
 ## Contribute
 ### CSS selectors
-ten.js is in dire need of a CSS selector engine. The ones I have checked out (Sizzle and Zest) are both larger than I would like, and Zest as-is throws warnings in Google Closure Compiler.
-
-So, what we need most is very lightweight, error-free CSS selector functionality. Minified filesize should be at maximum 5kb, with performance on par with Sizzle and other CSS selector engines. It does not need to be as complete as the heavy-weights, but should cover most selectors that are commonly used. If you know of an engine which is fitting, or would like to help build our own, PLEASE get in touch.
+ten.js is in dire need of a CSS selector engine. Minified filesize should be ~5-10kb, with performance on par with Sizzle and other CSS selector engines. It does not need to be as complete as the heavy-weights, but should cover most selectors that are commonly used. If you know of an engine which is fitting, or would like to help build our own, PLEASE get in touch.
 
 ### Performance testing
 My knowledge and patience with performance testing is limited. If you are at all interested in testing ten.js performance against other libraries (such as jQuery, jqMobi, Zepto, ExtJS, Prototype, etc), your help would be greatly appreciated.

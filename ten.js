@@ -10,12 +10,12 @@
 	}
 	function doClasses(that,classes,which) {
 		var classlist=that.classList;
-		if (ten.isArray(classes)) {
+		if (ten.isString(classes)) {
+			classlist[which](classes);
+		} else if (ten.isArray(classes)) {
 			ten.each(classes,function(key,val) {
 				classlist[which](val);
 			});
-		} else if (ten.isString(classes)) {
-			classlist[which](classes);
 		} else {
 			// classes must be string or array
 		}
