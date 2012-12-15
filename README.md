@@ -6,7 +6,7 @@ An open-source and lightweight (1.4kb minified & gzipped) JavaScript/HTML5 libra
 Modular additions will come in the future.
 
 ## Performance
-The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. The testing done so far has shown that ten.js is often at least twice as fast as similar libraries (though this is not always the case). Testing has been done against jQuery, jqMobi, and Zepto. 
+The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. The testing done so far has shown that ten.js is often faster than similar libraries. Testing has been done against jQuery, jqMobi, and Zepto. 
 
 ## Compatibility
 ten.js is primarily intended to work with Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
@@ -57,6 +57,21 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 ```
 
 ## API
+
+### ten()
+Parameters
+
+1. `string` (selector)
+
+Shortcut for the ten.find() method.
+
+Selects an element or elements based on either class or ID. Advanced CSS selectors are not implemented yet,
+but will be eventually.
+> ```
+> var foo=ten.find(".foo"); // selects all elements with the `foo` class
+> 
+> var bar=ten.find("#bar"); // selects the element with the ID `bar`
+> ```
 
 ### ten.each()
 Parameters
@@ -443,14 +458,16 @@ Returns the version of ten.js as a `string`.
 > ```
 
 ## Tips
-By default, ten.js uses an object called `ten`. You can also wrap your code like so, which allows the object to be
-called whatever you want.
-```
-(function($) {
-  $.ready(function() {
-    var foo=$.find("#foo"),
-        fooText=$.trim(foo.text());
-    console.log(fooText);
-  });
-})(ten);
-```
+By default, ten.js uses an object called `ten`, but if `$` is available it will use that as well. The following code produces the same results:
+> ```
+> var element=ten(".foo");
+> ten.each(function(index,element) {
+>   ten(element).html("bar");
+> });
+> ```
+> ```
+> var element=$(".foo");
+> $.each(function(index,element) {
+>   $(element).html("bar");
+> });
+> ```

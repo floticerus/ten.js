@@ -4,35 +4,7 @@
  @license MIT License <http://opensource.org/licenses/MIT>
  */
 (function() {
-	function doLog(name,message) {
-		console.log("ten."+name+"(): "+message);
-		return false;
-	}
-	function doClasses(that,classes,which) {
-		var classlist=that.classList;
-		if (ten.isString(classes)) {
-			classlist[which](classes);
-		} else if (ten.isArray(classes)) {
-			ten.each(classes,function(key,val) {
-				classlist[which](val);
-			});
-		} else {
-			// classes must be string or array
-		}
-		return that;
-	}
-	function manipulateHtml(that,content,which) {
-		ten.isString(content)&&(content=[content]);
-		if (ten.isArray(content)) {
-			for (var i=0;i<content.length;i++) {
-				that.innerHTML=which=="append"?that.innerHTML+content[i]:(which=="prepend"&&content[i]+that.innerHTML);
-			}
-		} else {
-			doLog(which,"invalid parameters");
-		}
-		return that;
-	}
-	ten={
+	var _$={
 		version:"0.0.3",
 		ajax:function(config) {
 			var opt={
@@ -47,50 +19,45 @@
 				dataTypes={
 					json:"application/json"
 				};
-			opt=ten.extend(opt,config);
+			opt=_$.extend(opt,config);
 			var req=new XMLHttpRequest();
 			var url="/json.php?foo=bar";
 			req.open(opt.type,url,true);
 			req.setRequestHeader("Content-Type", dataTypes[opt.dataType]+";charset=UTF-8");
 			req.send();
-			/* if (ten.isObject(obj)) {
-
-			} else {
+			/* if (_$.isObject(obj)) {
+				} else {
 				doLog("ajax","parameter must be an object");
 			} */
 		},
 		length:function(obj) {
-			if (ten.isObject(obj)) {
+			if (_$.isObject(obj)) {
 				var size=0,key;
 				for (key in obj) {
 					obj.hasOwnProperty(key)&&size++;
 				}
-			} else {
-				doLog("length","argument must be an object");
 			}
-			return ten.isDefined(size)?size:false;
+			return _$.isDefined(size)?size:false;
 		},
 		extend:function() {
-			var first=arguments.length>0?arguments[0]:doLog("extend","no arguments given");
+			var first=arguments.length>0?arguments[0]:false;
 			if (first!==false && arguments.length>=2) {
 				var ret=true;
 				arguments=Array.prototype.slice.call(arguments,1);
 				for (var i=0;i<arguments.length;i++) {
-					ten.each(arguments[i],function(target,value) {
-						first[target]=value;
+					_$.each(arguments[i],function(target,val) {
+						first[target]=val;
 					});
 				}
-			} else {
-				doLog("extend","must have at least 2 arguments");
 			}
-			return ten.isDefined(ret)?first:false;
+			return _$.isDefined(ret)?first:false;
 		},
 		ready:function(func) {
 			document.addEventListener("DOMContentLoaded",func,false);
 		},
 		find:function(theId) {
 			var element={};
-			if (!ten.isString(theId)) {
+			if (!_$.isString(theId)) {
 				element=theId;
 			} else {
 				// element=zest(theId);
@@ -105,6 +72,19 @@
 
 			//****************************
 			// begin CLASS HANDLING
+				var doClasses=function(that,classes,which) {
+					var classlist=that.classList;
+					if (_$.isString(classes)) {
+						classlist[which](classes);
+					} else if (_$.isArray(classes)) {
+						_$.each(classes,function(key,val) {
+							classlist[which](val);
+						});
+					} else {
+						// classes must be string or array
+					}
+					return that;
+				}
 				proto.addClass=function(classes) {
 					return doClasses(this,classes,"add");
 				}
@@ -122,6 +102,15 @@
 
 			//****************************
 			// begin HTML MANIPULATION
+				var manipulateHtml=function(that,content,which) {
+					_$.isString(content)&&(content=[content]);
+					if (_$.isArray(content)) {
+						for (var i=0;i<content.length;i++) {
+							that.innerHTML=which=="append"?that.innerHTML+content[i]:(which=="prepend"&&content[i]+that.innerHTML);
+						}
+					}
+					return that;
+				}
 				proto.append=function(content) {
 					return manipulateHtml(this,content,"append");
 				}
@@ -129,7 +118,7 @@
 					return manipulateHtml(this,content,"prepend");
 				}
 				proto.html=function(content) {
-					return content?(this.innerHTML=ten.isString(content)?content:ten.isArray(content)?content.join(""):doLog("html","argument expects a string or array"),this):this.innerHTML;
+					return content?(this.innerHTML=_$.isArray(content)?content.join(""):(_$.isString(content)||_$.isNumeric(content))&&content):this.innerHTML;
 				}
 			// end HTML MANIPULATION
 			//****************************
@@ -137,11 +126,11 @@
 				proto.each=function(func) {
 					var keys=Object.keys(this);
 					for (var i=0;i<this.length;i++) {
-						func(keys[i],ten.find(this[i]));
+						func(keys[i],this[i]);
 					}
 				}
 				proto.text=function() {
-					return ten.trim(this.innerHTML.replace(/<.*?>/g," "));
+					return _$.trim(this.innerHTML.replace(/<.*?>/g," "));
 				}
 
 			// finished building the object, return the element
@@ -149,22 +138,18 @@
 		},
 		each:function(data,func) {
 			var ret=false;
-			if (ten.isFunction(func)) {
-				if (ten.isArray(data)) {
+			if (_$.isFunction(func)) {
+				if (_$.isArray(data)) {
 					ret=true;
 					for (var i=0;i<data.length;i++) {
 						func(i,data[i]);
 					}
-				} else if (ten.isObject(data)) {
+				} else if (_$.isObject(data)) {
 					ret=true;
 					for (key in data) {
 						func(key,data[key]);
 					}
-				} else {
-					doLog("each","1st argument expects object or array");
 				}
-			} else {
-				doLog("each","2nd argument expects function");
 			}
 			return ret;
 		},
@@ -182,32 +167,36 @@
 		},
 		isFunction:function(data) {
 			return "function"===typeof data;
-		},
+			},
 		isNumeric:function(num) {
 			return !isNaN(parseFloat(num)) && isFinite(num);
 		},
 		trim:function(data) {
 			function doTrim(str) {
-				return str.replace(/(^\s+|\s+$)/g,"").replace(/\s\s+/g," ");
+				return str.replace(/(^\s+|\s+_$)/g,"").replace(/\s\s+/g," ");
 			}
-			if (ten.isString(data)) {
+			if (_$.isString(data)) {
 				data=doTrim(data);
-			} else if (ten.isArray(data)) {
-				ten.each(data,function(key,val) {
-					ten.isString(val)&&(data[key]=doTrim(val));
+			} else if (_$.isArray(data)) {
+				_$.each(data,function(key,val) {
+					_$.isString(val)&&(data[key]=doTrim(val));
 				});
 			}
 			return data;
 		},
 		ease:function(num) {
-			if (ten.isNumeric(num)) {
+			if (_$.isNumeric(num)) {
 				var ret=true;
 				// do ease function here
 
-			} else {
-				doLog("ease","must be numeric");
 			}
-			return ten.isDefined(ret);
+			return _$.isDefined(ret);
 		}
 	};
+	var proto=this.__proto__;
+	proto.ten=function(selector) {
+		return selector?_$.find(selector):false;
+	}
+	proto.ten=_$.extend(proto.ten,_$);
+	typeof $==="undefined"&&(proto.$=proto.ten);
 })();
