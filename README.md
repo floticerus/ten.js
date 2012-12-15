@@ -209,7 +209,7 @@ Parameters
 
 1. `var`
 
-Returns true if the argument is an object.
+Returns true if the argument is an object. Returns false for numeric arrays.
 > ```
 > var obj={foo:"bar"};
 > if (ten.isObject(obj)) {
@@ -340,25 +340,34 @@ Checks if the targeted element has the specified class. Returns boolean.
 ### .html()
 Parameters
 
-1. `string` (optional)
+1. `string` OR `array` (optional)
 
-Erases the current HTML within the element and replaces it with the `string` provided. If no argument is given, it will return the current HTML within the element.
+Erases the current HTML within the element and replaces it with the `string` provided. If no argument is given, it will return the current HTML within the element. If an array is provided, it will merge the contents of the array into a string.
 > ```
 > var element=ten.find("#foo");
-> element.html("<span>bar</span>"); // replaces the current HTML within the element with a `span` element
+> element.html("<span>bar</span>");
 > ```
+> Replaces the current HTML within the element with a `span` element
 > 
+> -----
+> ```
+> var element=ten.find("#foo");
+> element.html(["<span>foo</span>","<span>bar</span>"]);
+> ```
+> Replaces the current HTML within the element with two `span` elements
+> 
+> -----
 > ```
 > <div id="foo">
 >   <span>bar</span>
 > </div>
 > 
-> <script type="application/javascript">
+> <script>
 >   var element=ten.find("#foo");
->   console.log(element.html()); // logs "<span>bar</span>"
+>   console.log(element.html());
 > </script>
-> 
 > ```
+> Logs "<span>bar</span>"
 
 -----
 ### .prepend()

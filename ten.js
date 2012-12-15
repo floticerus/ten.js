@@ -8,6 +8,30 @@
 		console.log("ten."+name+"(): "+message);
 		return false;
 	}
+	function doClasses(that,classes,which) {
+		var classlist=that.classList;
+		if (ten.isArray(classes)) {
+			ten.each(classes,function(key,val) {
+				classlist[which](val);
+			});
+		} else if (ten.isString(classes)) {
+			classlist[which](classes);
+		} else {
+			// classes must be string or array
+		}
+		return that;
+	}
+	function manipulateHtml(that,content,which) {
+		ten.isString(content)&&(content=[content]);
+		if (ten.isArray(content)) {
+			for (var i=0;i<content.length;i++) {
+				that.innerHTML=which=="append"?that.innerHTML+content[i]:(which=="prepend"&&content[i]+that.innerHTML);
+			}
+		} else {
+			doLog(which,"invalid parameters");
+		}
+		return that;
+	}
 	ten={
 		version:"0.0.3",
 		ajax:function(config) {
@@ -81,25 +105,6 @@
 
 			//****************************
 			// begin CLASS HANDLING
-				function doClasses(that,classes,which) {
-					var classlist=that.classList;
-					if (ten.isArray(classes)) {
-						ten.each(classes,function(key,val) {
-							classlist[which](val);
-						});
-					} else if (ten.isString(classes)) {
-						classlist[which](classes);
-					} else {
-						// classes must be string or array
-					}
-					return that;
-				}
-				proto.each=function(func) {
-					var keys=Object.keys(this);
-					for (var i=0;i<this.length;i++) {
-						func(keys[i],ten.find(this[i]));
-					}
-				}
 				proto.addClass=function(classes) {
 					return doClasses(this,classes,"add");
 				}
@@ -117,17 +122,6 @@
 
 			//****************************
 			// begin HTML MANIPULATION
-				function manipulateHtml(that,content,which) {
-					ten.isString(content)&&(content=[content]);
-					if (ten.isArray(content)) {
-						for (var i=0;i<content.length;i++) {
-							that.innerHTML=which=="append"?that.innerHTML+content[i]:(which=="prepend"&&content[i]+that.innerHTML);
-						}
-					} else {
-						doLog(which,"invalid parameters");
-					}
-					return that;
-				}
 				proto.append=function(content) {
 					return manipulateHtml(this,content,"append");
 				}
@@ -140,6 +134,12 @@
 			// end HTML MANIPULATION
 			//****************************
 
+				proto.each=function(func) {
+					var keys=Object.keys(this);
+					for (var i=0;i<this.length;i++) {
+						func(keys[i],ten.find(this[i]));
+					}
+				}
 				proto.text=function() {
 					return ten.trim(this.innerHTML.replace(/<.*?>/g," "));
 				}
