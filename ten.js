@@ -6,6 +6,7 @@
 (function() {
 	var _$={
 		version:"0.0.3",
+		events:{},
 		ajax:function(config) {
 			var opt={
 					url:false,
@@ -55,17 +56,18 @@
 		ready:function(func) {
 			document.addEventListener("DOMContentLoaded",func,false);
 		},
-		find:function(theId) {
+		find:function(selector,internal) {
 			var element={};
-			if (!_$.isString(theId)) {
-				element=theId;
+			!internal&&(internal=document);
+			if (!_$.isString(selector)) {
+				element=selector;
 			} else {
-				// element=zest(theId);
-				var that=theId.replace(/^(?:#|\.)(.*?)$/,"$1");
-				if (theId.indexOf("#")===0) {
-					element=document.getElementById(that);
-				} else if (theId.indexOf(".")===0) {
-					element=document.getElementsByClassName(that);
+				// element=zest(selector);
+				var that=selector.replace(/^(?:#|\.)(.*?)$/,"$1");
+				if (selector.indexOf("#")===0) {
+					element=internal.getElementById(that);
+				} else if (selector.indexOf(".")===0) {
+					element=internal.getElementsByClassName(that);
 				}
 			}
 			var proto=element.__proto__;
@@ -118,19 +120,83 @@
 					return manipulateHtml(this,content,"prepend");
 				}
 				proto.html=function(content) {
-					return content?(this.innerHTML=_$.isArray(content)?content.join(""):(_$.isString(content)||_$.isNumeric(content))&&content):this.innerHTML;
+					var ret=this;
+					if (content) {
+						var str=_$.isArray(content)?content.join(""):(_$.isString(content)||_$.isNumeric(content))&&content;
+						if (this.length>1) {
+							for (var i=0;i<this.length;i++) {
+								this[i].innerHTML=str;
+							}
+						} else {
+							this.innerHTML=str;
+						}
+					} else {
+						ret=this.innerHTML;
+					}
+					return ret;
 				}
 			// end HTML MANIPULATION
 			//****************************
+
+			//****************************
+			// begin EVENT HANDLING
+				proto.on=function(name,selector,func,one) {
+					var events=_$.events;
+					if (_$.isFunction(selector)) {
+						func=selector;
+						selector=undefined;
+					}
+					if (!(this in events)) {
+						events[this]={};
+					}
+					if (!(name in events[this])) {
+						events[this][name]={};
+					}
+					if (one===1) {
+						var orig=func;
+						func=function(e) {
+							orig(e);
+							this.off(name);
+						}
+					}
+					events[this][name].func=func;
+					that=selector?this.find(selector):this;
+					that.addEventListener(name,func,false);
+					return this;
+				}
+
+				proto.one=function(name,selector,func) {
+					return this.on(name,selector,func,1);
+				}
+
+				proto.off=function(name) {
+					if (this in _$.events) {
+						if (name in _$.events[this]) {
+							var handlers=_$.events[this][name];
+							for (func in handlers) {
+								this.removeEventListener(name,handlers.func,false);
+							}
+						}
+					}
+					return this;
+				}
+			//****************************
+			// end EVENT HANDLING
+
+				proto.find=function(selector) {
+					return _$.find(selector,this);
+				}
 
 				proto.each=function(func) {
 					var keys=Object.keys(this);
 					for (var i=0;i<this.length;i++) {
 						func(keys[i],this[i]);
 					}
+					return this;
 				}
 				proto.text=function() {
-					return _$.trim(this.innerHTML.replace(/<.*?>/g," "));
+					// may need to remove .innerText & .textContent, and revert back to the original innerHTML
+					return this.innerText || _$.trim(this.textContent) || _$.trim(this.innerHTML.replace(/<.*?>/g,""));
 				}
 
 			// finished building the object, return the element
@@ -183,14 +249,6 @@
 				});
 			}
 			return data;
-		},
-		ease:function(num) {
-			if (_$.isNumeric(num)) {
-				var ret=true;
-				// do ease function here
-
-			}
-			return _$.isDefined(ret);
 		}
 	};
 	var proto=this.__proto__;
