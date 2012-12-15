@@ -367,7 +367,7 @@ Erases the current HTML within the element and replaces it with the `string` pro
 >   console.log(element.html());
 > </script>
 > ```
-> Logs "<span>bar</span>"
+> Logs `<span>bar</span>`
 
 -----
 ### .prepend()
