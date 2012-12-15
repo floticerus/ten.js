@@ -1,7 +1,7 @@
 ten.js
 ======
 
-An open-source and lightweight (1.28kb minified & gzipped) JavaScript/HTML5 library. Work began on December 10th, 2012.
+An open-source and lightweight (1.48kb minified & gzipped) JavaScript/HTML5 library. Work began on December 10th, 2012.
 
 Modular additions will come in the future.
 
@@ -24,6 +24,7 @@ My knowledge and patience with performance testing is limited. If you are at all
 
 - [Setup](#setup)
 - [API](#api)
+ - [ten()](#ten)
  - [ten.each()](#teneach)
  - [ten.extend()](#tenextend)
  - [ten.find()](#tenfind)
@@ -39,8 +40,12 @@ My knowledge and patience with performance testing is limited. If you are at all
  - [.addClass()](#addclass)
  - [.append()](#append)
  - [.each()](#each)
+ - [.find()](#find)
  - [.hasClass()](#hasclass)
  - [.html()](#html)
+ - [.on()](#on)
+ - [.one()](#one)
+ - [.off()](#off)
  - [.prepend()](#prepend)
  - [.removeClass()](#removeclass)
  - [.text()](#text)
