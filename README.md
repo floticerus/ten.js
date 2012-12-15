@@ -1,7 +1,7 @@
 ten.js
 ======
 
-An open-source and lightweight (1.4kb minified & gzipped) JavaScript/HTML5 library. Work began on December 10th, 2012.
+An open-source and lightweight (1.28kb minified & gzipped) JavaScript/HTML5 library. Work began on December 10th, 2012.
 
 Modular additions will come in the future.
 
