@@ -16,11 +16,8 @@ ten.js is primarily intended to work with Google Chrome, Mozilla Firefox, Safari
 To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although it might work with IE10. If there is demand for compatibility, it may be included in the future.
 
 ## Contribute
-### CSS selectors
-ten.js is in dire need of a CSS selector engine. Minified filesize should be ~5-10kb, with performance on par with Sizzle and other CSS selector engines. It does not need to be as complete as the heavy-weights, but should cover most selectors that are commonly used. If you know of an engine which is fitting, or would like to help build our own, PLEASE get in touch.
-
 ### Performance testing
-My knowledge and patience with performance testing is limited. If you are at all interested in testing ten.js performance against other libraries (such as jQuery, jqMobi, Zepto, ExtJS, Prototype, etc), your help would be greatly appreciated.
+If you are at all interested in testing ten.js performance against other libraries (such as jQuery, jqMobi, Zepto, ExtJS, Prototype, etc), your help would be greatly appreciated.
 
 #Documentation
 
@@ -70,7 +67,7 @@ Parameters
 
 1. `selector` OR `function`
 
-Shortcut for the ten.find() and ten.ready() methods.
+Shortcut for the ten.create(), ten.find(), and ten.ready() methods.
 
 If argument is a function, it will execute once the DOM is fully loaded. Otherwise, it is used as a shortcut for the element selector method ten.find().
 > ```
@@ -161,8 +158,7 @@ Parameters
 
 1. `string` (selector)
 
-Selects an element or elements based on either class or ID. Advanced CSS selectors are not implemented yet,
-but will be eventually.
+Selects an element or elements based on the selector provided. Supports CSS selectors.
 > ```
 > var foo=ten.find(".foo"); // selects all elements with the `foo` class
 > 
@@ -349,6 +345,24 @@ Runs the specified function for each element selected.
 > ```
 
 -----
+### .first()
+No parameters (yet)
+
+Returns the first element in an array of elements.
+> ```
+> <ul>
+>   <li>red</li>
+>   <li>green</li>
+>   <li>blue</li>
+>   <li>yellow</li>
+> </ul>
+>
+> <script>
+>   var color=$("ul>li").first().text(); // returns "red"
+> </script>
+> ```
+
+-----
 ### .hasClass()
 Parameters
 
@@ -393,6 +407,24 @@ Erases the current HTML within the element and replaces it with the `string` pro
 > </script>
 > ```
 > Logs `<span>bar</span>`
+
+-----
+### .last()
+No parameters (yet)
+
+Returns the last element in an array of elements.
+> ```
+> <ul>
+>   <li>red</li>
+>   <li>green</li>
+>   <li>blue</li>
+>   <li>yellow</li>
+> </ul>
+>
+> <script>
+>   var color=$("ul>li").last().text(); // returns "yellow"
+> </script>
+> ```
 
 -----
 ### .prepend()
