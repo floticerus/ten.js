@@ -64,8 +64,9 @@
 			} else {
 				if (selector.match(/^</)) {
 					var regex=/^<(.*?)\s?\/?>(?:(.*?)<\/.*?>)?/,
-						type=selector.replace(regex,"$1"),
-						match=selector.match(regex)[2];
+						matches=selector.match(regex),
+						type=matches[1],
+						match=matches[2];
 					element=document.createElement(type);
 					match&&(element.innerHTML=match);
 				} else {
