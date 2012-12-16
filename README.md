@@ -6,7 +6,9 @@ An open-source and lightweight (1.48kb minified & gzipped) JavaScript/HTML5 libr
 Modular additions will come in the future.
 
 ## Performance
-The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. The testing done so far has shown that ten.js is often faster than similar libraries. Testing has been done against jQuery, jqMobi, and Zepto. 
+The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. The testing done so far has shown that ten.js is often faster than similar libraries. Testing has been done against jQuery, jqMobi, and Zepto.
+
+To see for yourself, check this out: [http://jsperf.com/jqm3/95](http://jsperf.com/jqm3/95)
 
 ## Compatibility
 ten.js is primarily intended to work with Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
@@ -66,16 +68,21 @@ or use a script loader such as [yepnope](http://yepnopejs.com/), [RequireJS](htt
 ### ten()
 Parameters
 
-1. `string` (selector)
+1. `selector` OR `function`
 
-Shortcut for the ten.find() method.
+Shortcut for the ten.find() and ten.ready() methods.
 
-Selects an element or elements based on either class or ID. Advanced CSS selectors are not implemented yet,
-but will be eventually.
+If argument is a function, it will execute once the DOM is fully loaded. Otherwise, it is used as a shortcut for the element selector method ten.find().
 > ```
-> var foo=ten.find(".foo"); // selects all elements with the `foo` class
+> ten(function() {
+>   console.log("loaded"); // executes once the DOM is loaded
+> });
+> ```
+>
+> ```
+> var foo=ten(".foo"); // selects all elements with the `foo` class
 > 
-> var bar=ten.find("#bar"); // selects the element with the ID `bar`
+> var bar=ten("#bar"); // selects the element with the ID `bar`
 > ```
 
 ### ten.each()
