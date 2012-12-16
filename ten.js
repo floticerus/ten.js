@@ -4,6 +4,155 @@
  @license MIT License <http://opensource.org/licenses/MIT>
  */
 (function() {
+	function addTen(element) {
+		var proto=element.__proto__;
+		//****************************
+			// begin CLASS HANDLING
+				var doClasses=function(that,classes,which) {
+					var classlist=that.classList;
+					if (_$.isString(classes)) {
+						classlist[which](classes);
+					} else if (_$.isArray(classes)) {
+						_$.each(classes,function(key,val) {
+							classlist[which](val);
+						});
+					} else {
+						// classes must be string or array
+					}
+					return that;
+				}
+				proto.addClass=function(classes) {
+					return doClasses(this,classes,"add");
+				}
+				proto.removeClass=function(classes) {
+					return doClasses(this,classes,"remove");
+				}
+				proto.toggle=function(classes) {
+					return doClasses(this,classes,"toggle");
+				}
+				proto.hasClass=function(theClass) {
+					return this.classList.contains(theClass);
+				}
+			// end CLASS HANDLING
+			//****************************
+
+			//****************************
+			// begin HTML MANIPULATION
+				var manipulateHtml=function(that,content,which) {
+					_$.isString(content)&&(content=[content]);
+					if (_$.isArray(content)) {
+						for (var i=0;i<content.length;i++) {
+							that.innerHTML=which=="append"?that.innerHTML+content[i]:(which=="prepend"&&content[i]+that.innerHTML);
+						}
+					}
+					return that;
+				}
+				proto.append=function(content) {
+					return _$.isElement(content)?(this.appendChild(content)):manipulateHtml(this,content,"append");
+				}
+				proto.prepend=function(content) {
+					var that=this;
+					if (_$.isElement(content)) {
+						if (that.childNodes.length>0) {
+							that.insertBefore(content,that.firstChild);
+						} else {
+							that.appendChild(content);
+						}
+					} else {
+						that=manipulateHtml(that,content,"prepend");
+					}
+					return that;
+				}
+				proto.html=function(content) {
+					var that=this;
+					if (_$.isElement(content)) {
+						that.innerHTML+=content.outerHTML;
+					} else {
+						if (content) {
+							var str=_$.isArray(content)?content.join(""):(_$.isString(content)||_$.isNumeric(content))&&content;
+							if (that.length>1) {
+								for (var i=0;i<that.length;i++) {
+									that[i].innerHTML=str;
+								}
+							} else {
+								that.innerHTML=str;
+							}
+						} else {
+							that=that.innerHTML;
+						}
+					}
+					return that;
+				}
+			// end HTML MANIPULATION
+			//****************************
+
+			//****************************
+			// begin EVENT HANDLING
+				proto.on=function(name,selector,func,one) {
+					var that=this,
+						events=_$.events;
+					if (_$.isFunction(selector)) {
+						func=selector;
+						selector=undefined;
+					}
+					if (!(that in events)) {
+						events[that]={};
+					}
+					if (!(name in events[that])) {
+						events[that][name]={};
+					}
+					if (one===1) {
+						var orig=func;
+						func=function(e) {
+							orig(e);
+							that.off(name);
+						}
+					}
+					events[that][name].func=func;
+					that=selector?that.find(selector):that;
+					that.addEventListener(name,func,false);
+					return that;
+				}
+
+				proto.one=function(name,selector,func) {
+					return this.on(name,selector,func,1);
+				}
+
+				proto.off=function(name) {
+					var that=this;
+					if (that in _$.events) {
+						if (name in _$.events[that]) {
+							var handlers=_$.events[that][name];
+							for (func in handlers) {
+								that.removeEventListener(name,handlers.func,false);
+							}
+						}
+					}
+					return that;
+				}
+			//****************************
+			// end EVENT HANDLING
+
+				proto.find=function(selector) {
+					return _$.find(selector,this);
+				}
+
+				proto.each=function(func) {
+					var that=this,
+						keys=Object.keys(that);
+					for (var i=0;i<that.length;i++) {
+						func(keys[i],that[i]);
+					}
+					return that;
+				}
+
+				proto.text=function() {
+					// may need to remove .innerText & .textContent, and revert back to the original innerHTML
+					return this.innerText || _$.trim(this.textContent) || _$.trim(this.innerHTML.replace(/<.*?>/g,""));
+				}
+
+		return element;
+	}
 	var _$={
 		version:"0.0.3",
 		events:{},
@@ -56,6 +205,15 @@
 		ready:function(func) {
 			document.addEventListener("DOMContentLoaded",func,false);
 		},
+		create:function(selector) {
+			var regex=/^<(.*?)\s?\/?>(?:(.*?)<\/.*?>)?/,
+				matches=selector.match(regex),
+				type=matches[1],
+				match=matches[2];
+			var element=document.createElement(type);
+			match&&(element.innerHTML=match);
+			return addTen(element);
+		},
 		find:function(selector,internal) {
 			var element={};
 			!internal&&(internal=document);
@@ -70,149 +228,10 @@
 					element=document.createElement(type);
 					match&&(element.innerHTML=match);
 				} else {
-					var that=selector.replace(/^(?:#|\.)(.*?)$/,"$1");
-					if (selector.indexOf("#")===0) {
-						element=internal.getElementById(that);
-					} else if (selector.indexOf(".")===0) {
-						element=internal.getElementsByClassName(that);
-					}	
+					element=document.querySelector(selector);
 				}
 			}
-			var proto=element.__proto__;
-
-			//****************************
-			// begin CLASS HANDLING
-				var doClasses=function(that,classes,which) {
-					var classlist=that.classList;
-					if (_$.isString(classes)) {
-						classlist[which](classes);
-					} else if (_$.isArray(classes)) {
-						_$.each(classes,function(key,val) {
-							classlist[which](val);
-						});
-					} else {
-						// classes must be string or array
-					}
-					return that;
-				}
-				proto.addClass=function(classes) {
-					return doClasses(this,classes,"add");
-				}
-				proto.removeClass=function(classes) {
-					return doClasses(this,classes,"remove");
-				}
-				proto.toggle=function(classes) {
-					return doClasses(this,classes,"toggle");
-				}
-				proto.hasClass=function(theClass) {
-					return this.classList.contains(theClass);
-				}
-			// end CLASS HANDLING
-			//****************************
-
-			//****************************
-			// begin HTML MANIPULATION
-				var manipulateHtml=function(that,content,which) {
-					_$.isString(content)&&(content=[content]);
-					if (_$.isArray(content)) {
-						for (var i=0;i<content.length;i++) {
-							that.innerHTML=which=="append"?that.innerHTML+content[i]:(which=="prepend"&&content[i]+that.innerHTML);
-						}
-					}
-					return that;
-				}
-				proto.append=function(content) {
-					return _$.isElement(content)?(this.appendChild(content)):manipulateHtml(this,content,"append");
-				}
-				proto.prepend=function(content) {
-					return manipulateHtml(this,content,"prepend");
-				}
-				proto.html=function(content) {
-					var ret=this;
-					if (_$.isElement(content)) {
-						that.innerHTML+=content.outerHTML;
-					} else {
-						if (content) {
-							var str=_$.isArray(content)?content.join(""):(_$.isString(content)||_$.isNumeric(content))&&content;
-							if (this.length>1) {
-								for (var i=0;i<this.length;i++) {
-									this[i].innerHTML=str;
-								}
-							} else {
-								this.innerHTML=str;
-							}
-						} else {
-							ret=this.innerHTML;
-						}
-					}
-					return ret;
-				}
-			// end HTML MANIPULATION
-			//****************************
-
-			//****************************
-			// begin EVENT HANDLING
-				proto.on=function(name,selector,func,one) {
-					var events=_$.events;
-					if (_$.isFunction(selector)) {
-						func=selector;
-						selector=undefined;
-					}
-					if (!(this in events)) {
-						events[this]={};
-					}
-					if (!(name in events[this])) {
-						events[this][name]={};
-					}
-					if (one===1) {
-						var orig=func;
-						func=function(e) {
-							orig(e);
-							this.off(name);
-						}
-					}
-					events[this][name].func=func;
-					that=selector?this.find(selector):this;
-					that.addEventListener(name,func,false);
-					return this;
-				}
-
-				proto.one=function(name,selector,func) {
-					return this.on(name,selector,func,1);
-				}
-
-				proto.off=function(name) {
-					if (this in _$.events) {
-						if (name in _$.events[this]) {
-							var handlers=_$.events[this][name];
-							for (func in handlers) {
-								this.removeEventListener(name,handlers.func,false);
-							}
-						}
-					}
-					return this;
-				}
-			//****************************
-			// end EVENT HANDLING
-
-				proto.find=function(selector) {
-					return _$.find(selector,this);
-				}
-
-				proto.each=function(func) {
-					var keys=Object.keys(this);
-					for (var i=0;i<this.length;i++) {
-						func(keys[i],this[i]);
-					}
-					return this;
-				}
-				proto.text=function() {
-					// may need to remove .innerText & .textContent, and revert back to the original innerHTML
-					return this.innerText || _$.trim(this.textContent) || _$.trim(this.innerHTML.replace(/<.*?>/g,""));
-				}
-
-			// finished building the object, return the element
-			return element;
+			return addTen(element);
 		},
 		each:function(data,func) {
 			var ret=false;
@@ -268,7 +287,7 @@
 	};
 	var proto=window.__proto__,ten=proto.ten;
 	ten=function(selector) {
-		return selector?_$.isFunction(selector)?_$.ready(selector):_$.find(selector):false;
+		return selector?_$.isFunction(selector)?_$.ready(selector):(_$.isString(selector)&&selector.match(/^</))?_$.create(selector):_$.find(selector):false;
 	}
 	proto.ten=_$.extend(ten,_$);
 	typeof $==="undefined"&&($=ten);
