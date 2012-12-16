@@ -151,6 +151,14 @@
 					return this.innerText || _$.trim(this.textContent) || _$.trim(this.innerHTML.replace(/<.*?>/g,""));
 				}
 
+				proto.first=function() {
+					return this.length>0?this[0]:this;
+				}
+
+				proto.last=function() {
+					return this.length>0?this[this.length-1]:this;
+				}
+
 		return element;
 	}
 	var _$={
@@ -214,23 +222,9 @@
 			match&&(element.innerHTML=match);
 			return addTen(element);
 		},
-		find:function(selector,internal) {
+		find:function(selector) {
 			var element={};
-			!internal&&(internal=document);
-			if (!_$.isString(selector)) {
-				element=selector;
-			} else {
-				if (selector.match(/^</)) {
-					var regex=/^<(.*?)\s?\/?>(?:(.*?)<\/.*?>)?/,
-						matches=selector.match(regex),
-						type=matches[1],
-						match=matches[2];
-					element=document.createElement(type);
-					match&&(element.innerHTML=match);
-				} else {
-					element=document.querySelector(selector);
-				}
-			}
+			element=!_$.isString(selector)?selector:document.querySelector(selector);
 			return addTen(element);
 		},
 		each:function(data,func) {
