@@ -348,8 +348,6 @@
 
 	// allow ten functions within ten
 	_$=init.core;
-	nl=init.nl;
-	el=init.el;
 
 	// function to return the ten object
 	function ten(obj) {
@@ -357,8 +355,8 @@
 	}
 
 	// add element methods to ten object
-	for (key in el) {
-		ten.prototype[key]=el[key];
+	for (key in init.el) {
+		ten.prototype[key]=init.el[key];
 	}
 
 	window.ten = window.$ = function(selector) {
