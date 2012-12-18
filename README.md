@@ -1,23 +1,19 @@
 ten.js
 ======
 
-An open-source and lightweight (1.62kb minified & gzipped) JavaScript/HTML5 library. Work began on December 10th, 2012.
+An open-source and lightweight (~2kb minified & gzipped) JavaScript library. Work began on December 10th, 2012.
 
 Modular additions will come in the future.
 
-## Performance
-The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. The testing done so far has shown that ten.js is often faster than similar libraries. Testing has been done against jQuery, jqMobi, and Zepto.
+Currently undergoing major changes. Many of the functions are probably not working at the moment.
 
-To see for yourself, check this out: [http://jsperf.com/jqm3/95](http://jsperf.com/jqm3/95)
+## Performance
+The goal of ten.js is to at least match the speeds of other common libraries, while maintaining functionality and minimal filesize. The testing done so far has shown that ten.js is often faster than other libraries. Testing has been done against jQuery, jqMobi, and Zepto.
 
 ## Compatibility
 ten.js is primarily intended to work with Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
 
 To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although it might work with IE10. If there is demand for compatibility, it may be included in the future.
-
-## Contribute
-### Performance testing
-If you are at all interested in testing ten.js performance against other libraries (such as jQuery, jqMobi, Zepto, ExtJS, Prototype, etc), your help would be greatly appreciated.
 
 #Documentation
 
