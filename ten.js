@@ -3,7 +3,7 @@
 	@license MIT License <http://opensource.org/licenses/MIT> */
 (function(window) {
 	var init={},
-		_$,
+		$,
 		events={},
 		displayCache={},
 		textCache={},
@@ -16,39 +16,67 @@
 		return obj;
 	}
 
+	function tenToString(data) {
+		for (var i=0,len=data.length,str="";i<len;i++) {
+			str+=data[i].outerHTML;
+		}
+		return str;
+	}
+
+	function arrayToString(data) {
+		for (var len=data.length,str="",i=0;i<len;i++) {
+			if (data[i] instanceof ten) {
+				str+=tenToString(data[i]);
+			} else if ($.isElement(data[i])) {
+				str+=data[i].outerHTML;
+			} else {
+				str+=data[i];
+			}
+		}
+		return str;
+	}
+
 	function modifyHTML(that,content,which) {
 		var len=that.length,i,regex=/<.*?>/g;
-		if (_$.isArray(content)) {
-			var arr=content,arrLen=arr.length;
-			content="";
-			for (i=0;i<arrLen;i++)
-				content+=_$.isTen(arr[i])?arr[i].outerHTML:arr[i];
+		if ($.isArray(content)) {
+			content=arrayToString(content);
+		} else if (content instanceof ten) {
+			content=tenToString(content);
 		}
-		if (content instanceof ten) {
-			for (i=0,tenLen=content.length,newContent="";i<tenLen;i++) {
-				newContent+=content[i].outerHTML;
-			}
-			content=newContent;
-		}
-		if (regex.test(content)) {
-			for (i=0;i<len;i++) {
-				that[i].insertAdjacentHTML(which,content);
+		if (which==="inner") {
+			if (content) {
+				var thatLen=that.length,i;
+				if (thatLen>1) {
+					for (i=0;i<thatLen;i++) {
+						that[i].innerHTML=content;
+					}
+				} else {
+					that[0].innerHTML=content;
+				}
+			} else {
+				that=that.innerHTML;
 			}
 		} else {
-			var text;
-			if (textCache.hasOwnProperty(content) && textCache[content]!==false) {
-				text=textCache[content];
+			if (regex.test(content)) {
+				for (i=0;i<len;i++) {
+					that[i].insertAdjacentHTML(which,content);
+				}
 			} else {
-				text=document.createTextNode(content);
-				// only cache the text node if it's been created twice
-				textCache[content]=textCache.hasOwnProperty(content) && textCache[content]===false?text:false;
-			}
-			if (which=="afterbegin") {
-				for (i=0;i<len;i++)
-					that[i].insertBefore(text.cloneNode(true),that[i].firstChild);
-			} else {
-				for (i=0;i<len;i++)
-					that[i].appendChild(text.cloneNode(true));
+				var text;
+				if (textCache.hasOwnProperty(content) && textCache[content]!==false) {
+					text=textCache[content];
+				} else {
+					text=document.createTextNode(content);
+					// only cache the text node if it's been created twice
+					textCache[content]=textCache.hasOwnProperty(content) && textCache[content]===false?text:false;
+				}
+				if (which=="afterbegin") {
+					for (i=0;i<len;i++)
+						that[i].insertBefore(text.cloneNode(true),that[i].firstChild);
+				} else if (which=="beforeend") {
+					for (i=0;i<len;i++)
+						that[i].appendChild(text.cloneNode(true));
+				}
 			}
 		}
 		return that;
@@ -58,9 +86,9 @@
 		// internal helper for class methods
 		for (var i=0,thatLen=that.length;i<thatLen;i++) {
 			var classlist=that[i].classList;
-			if (_$.isString(classes)) {
+			if ($.isString(classes)) {
 				classlist[which](classes);
-			} else if (_$.isArray(classes)) {
+			} else if ($.isArray(classes)) {
 				var ind,classesLen=classes.length;
 				for (ind=0;ind<classesLen;ind++) {
 					classlist[which](classes[i]);
@@ -70,8 +98,12 @@
 		return that;
 	}
 
+	function doTrim(str) {
+		return str.replace(/(^\s+|\s+$)/g,"").replace(/\s\s+/g," ");
+	}
+
 	// core methods
-	init.core=window.ten=window.$=_$={
+	init.core=$={
 		ten:true,
 		version:"0.0.9",
 		ajax:function(config) {
@@ -87,20 +119,20 @@
 				dataTypes={
 					json:"application/json"
 				};
-			opt=_$.extend(opt,config);
+			opt=$.extend(opt,config);
 			var req=new XMLHttpRequest();
 			var url="/json.php?foo=bar";
 			req.open(opt.type,url,true);
 			req.setRequestHeader("Content-Type", dataTypes[opt.dataType]+";charset=UTF-8");
 			req.send();
-			/* if (_$.isObject(obj)) {
+			/* if ($.isObject(obj)) {
 				} else {
 				doLog("ajax","parameter must be an object");
 			} */
 		},
 		length:function(obj) {
 			var size=0;
-			if (_$.isObject(obj)) {
+			if ($.isObject(obj)) {
 				for (var key in obj) {
 					obj.hasOwnProperty(key)&&size++;
 				}
@@ -114,7 +146,7 @@
 				var ret=true,i,argLen=arguments.length;
 				for (i=0;i<argLen;i++) {
 					if (arguments[i]!=null) {
-						_$.each(arguments[i],function(key,val) {
+						$.each(arguments[i],function(key,val) {
 							key!==undefined&&(first[key]=val);
 						});
 					}
@@ -133,12 +165,12 @@
 				html=matches[2];
 			var element=document.createElement(type);
 			html&&(element.innerHTML=html);
-			return _$.find(element);
+			return $.find(element);
 		},
 		find:function(selector,cache) {
 			var orig=selector;
 			selector=new ten();
-			if (_$.isElement(orig) || orig instanceof HTMLDocument) {
+			if ($.isElement(orig) || orig instanceof HTMLDocument) {
 				selector[0]=orig;
 				selector.length=1; // might need to actually calculate this with .length()
 			} else {
@@ -152,18 +184,18 @@
 		},
 		each:function(data,func) {
 			var ret=false;
-			if (_$.isArray(data)) {
+			if ($.isArray(data)) {
 				ret=true;
 				for (var i=0,dataLen=data.length;i<dataLen;i++) {
 					func(i,data[i]);
 				}
-			} else if (_$.isObject(data)) {
+			} else if ($.isObject(data)) {
 				ret=true;
 				for (key in data) {
 					func(key,data[key]);
 				}
 			}
-			return _$.find(ret);
+			return $.find(ret);
 		},
 		isDefined:function(data) {
 			return "undefined"!==typeof data;
@@ -191,14 +223,11 @@
 		},
 		trim:function(data) {
 			// function( text ) { return (text || "").replace( /^(\s|\u00A0)+|(\s|\u00A0)+$/g, "" );}
-			function doTrim(str) {
-				return str.replace(/(^\s+|\s+_$)/g,"").replace(/\s\s+/g," ");
-			}
-			if (_$.isString(data)) {
+			if ($.isString(data)) {
 				data=doTrim(data);
-			} else if (_$.isArray(data)) {
-				_$.each(data,function(key,val) {
-					_$.isString(val)&&(data[key]=doTrim(val));
+			} else if ($.isArray(data)) {
+				$.each(data,function(key,val) {
+					$.isString(val)&&(data[key]=doTrim(val));
 				});
 			}
 			return data;
@@ -230,49 +259,29 @@
 			return modifyHTML(this,content,"afterbegin");
 		},
 		html:function(content) {
-			var that=this;
-			if (_$.isElement(content)) {
-				that.innerHTML=content.outerHTML;
-			} else {
-				if (content) {
-					var str=_$.isArray(content)?content.join(""):(_$.isString(content)||_$.isNumeric(content))&&content,
-						thatLen=that.length,i;
-					if (thatLen>1) {
-						for (i=0;i<thatLen;i++) {
-							that[i].innerHTML=str;
-						}
-					} else {
-						that[0].innerHTML=str;
-					}
-				} else {
-					that=that.innerHTML;
-				}
-			}
-			return that;
+			return modifyHTML(this,content,"inner");
 		},
-
 		find:function(selector) {
 			var ret=[],
 				tempClass="ten-find-"+Math.floor((Math.random()*2e10)+1);
 			this.addClass(tempClass);
-			ret=_$.find("."+tempClass+" "+selector);
+			ret=$.find("."+tempClass+" "+selector);
 			this.removeClass(tempClass);
 			return ret;
 		},
 
 		each:function(func) {
-			var that=this,
-				keys=Object.keys(that),
-				thatLen=that.length,i;
+			var keys=Object.keys(this),
+				thatLen=this.length,i;
 			for (i=0;i<thatLen;i++) {
-				func(keys[i],that[i]);
+				func(keys[i],this[i]);
 			}
-			return that;
+			return this;
 		},
 
 		text:function() {
 			// may need to remove .innerText & .textContent, and revert back to the original innerHTML
-			return this.innerText || _$.trim(this.textContent) || _$.trim(this.innerHTML.replace(/<.*?>/g,""));
+			return this.innerText || $.trim(this.textContent) || $.trim(this.innerHTML.replace(/<.*?>/g,""));
 		},
 
 		first:function() {
@@ -300,12 +309,12 @@
 			return this;
 		},
 		on:function(name,selector,func,one) {
-			if (_$.isFunction(selector)) {
+			if ($.isFunction(selector)) {
 				func=selector;
 				selector=undefined;
 			}
-			/* if (_$.isElement(selector)) {
-				_$.find(selector,false).addClass("ten-event-"+eventClass++);
+			/* if ($.isElement(selector)) {
+				$.find(selector,false).addClass("ten-event-"+eventClass++);
 			} */
 			if (!(selector in events)) {
 				events[selector]={};
@@ -314,13 +323,13 @@
 				if (!(name in events[selector])) {
 					events[selector][name]={};
 				} else {
-					_$.find(this[i]).off(name,selector,true);
+					$.find(this[i]).off(name,selector,true);
 				}
 				if (one===1) {
 					var orig=func;
 					func=function(e) {
 						orig.call(e.target,e);
-						_$.find(this[i]).off(name,selector);
+						$.find(this[i]).off(name,selector);
 					}
 				}
 				var finalFunc=function(e) {
@@ -351,7 +360,10 @@
 		}
 	};
 
-	window.ten = window.$ = function(selector) {
-		return selector?_$.isFunction(selector)?_$.ready(selector):(_$.isString(selector)&&selector.match(/^</))?_$.create(selector):_$.find(selector):init;
+	function tenInit(selector) {
+		return selector?$.isFunction(selector)?$.ready(selector):($.isString(selector)&&selector.match(/^</))?$.create(selector):$.find(selector):init;
 	}
+
+	window.ten = window.$ = $.extend(tenInit,init.core);
+	
 })(window);
