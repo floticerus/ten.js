@@ -1,4 +1,4 @@
-/**	@preserve ten.js - lightweight JavaScript/HTML5 library
+/**	@preserve ten.js
 	@copyright 2012 Kevin von Flotow <vonflow@gmail.com>
 	@license MIT License <http://opensource.org/licenses/MIT> */
 (function(window) {
@@ -7,22 +7,28 @@
 		events={},
 		displayCache={},
 		textCache={},
-		docEl=document.documentElement,
+		doc=window.document,
+		docEl=doc.documentElement,
 		matchesSel=docEl.matchesSelector || docEl.webkitMatchesSelector || docEl.mozMatchesSelector || docEl.oMatchesSelector || docEl.msMatchesSelector,
 		eventClass=0;
 
-	// function to return the ten object
-	function ten(obj) {
-		return obj;
+	function tenInit(selector) {
+		return new ten(selector);
 	}
 
+	// main ten function
+	function ten(selector) {
+		return selector?$.isFunction(selector)?$.ready(selector):($.isString(selector)&&selector.indexOf("<")===0)?$.create(selector):$.find(selector):selector;
+	}
+
+	// convert a ten object into a string using the outerHTML of each element
 	function tenToString(data) {
-		for (var i=0,len=data.length,str="";i<len;i++) {
+		for (var i=0,len=data.length,str="";i<len;i++)
 			str+=data[i].outerHTML;
-		}
 		return str;
 	}
 
+	// convert an array into a string
 	function arrayToString(data) {
 		for (var len=data.length,str="",i=0;i<len;i++) {
 			if (data[i] instanceof ten) {
@@ -36,6 +42,7 @@
 		return str;
 	}
 
+	// function used for append, prepend, and html methods
 	function modifyHTML(that,content,which) {
 		var len=that.length,i,regex=/<.*?>/g;
 		if ($.isArray(content)) {
@@ -66,7 +73,7 @@
 				if (textCache.hasOwnProperty(content) && textCache[content]!==false) {
 					text=textCache[content];
 				} else {
-					text=document.createTextNode(content);
+					text=doc.createTextNode(content);
 					// only cache the text node if it's been created twice
 					textCache[content]=textCache.hasOwnProperty(content) && textCache[content]===false?text:false;
 				}
@@ -82,17 +89,15 @@
 		return that;
 	}
 
+	// internal helper for class methods. uses HTML5 classList API (will not work on IE9 and below)
 	function doClasses(that,classes,which) {
-		// internal helper for class methods
 		for (var i=0,thatLen=that.length;i<thatLen;i++) {
 			var classlist=that[i].classList;
 			if ($.isString(classes)) {
 				classlist[which](classes);
 			} else if ($.isArray(classes)) {
-				var ind,classesLen=classes.length;
-				for (ind=0;ind<classesLen;ind++) {
+				for (var ind=0,classesLen=classes.length;ind<classesLen;ind++)
 					classlist[which](classes[i]);
-				}
 			}
 		}
 		return that;
@@ -102,6 +107,8 @@
 		return str.replace(/(^\s+|\s+$)/g,"").replace(/\s\s+/g," ");
 	}
 
+	// function to add parameters to a URL
+	// usage: addParam("http://localhost/index.php","foo=bar");
 	function addParam(url,param) {
 		$.isArray(param)&&(param=arrayToString(param));
 		url=url.indexOf("?") != -1 ? url.split("?")[0]+"?"+param+"&"+url.split("?")[1] : (url.indexOf("#") != -1 ? url.split("#")[0]+"?"+param+"#"+ url.split("#")[1] : url+'?'+param);
@@ -110,8 +117,19 @@
 
 	// core methods
 	init.core=$={
-		ten:true,
 		version:"0.0.10",
+		getScript:function(url,func) {
+			var script=doc.createElement("script");
+			script.type="application/javascript";
+			script.async=true;
+			script.src=url;
+			script.onload=script.onreadystatechange=function() {
+				$.isFunction(func)&&func();
+				script.onload=script.onreadystatechange=null;
+			};
+			doc.getElementsByTagName("head")[0].appendChild(script);
+			return script;
+		},
 		ajax:function(config) {
 			var opt={
 					url:false,
@@ -140,19 +158,20 @@
 					var date=new Date();
 					opt.url=addParam(opt.url,"_="+date.getTime());
 				}
-				var req=new XMLHttpRequest(),data;
+				var req=new XMLHttpRequest();
 				req.open(opt.type,opt.url,true);
 				req.setRequestHeader("Content-Type", dataTypes[opt.dataType]+";charset="+opt.charset);
 				req.send();
 				req.onreadystatechange=function() {
 					if (req.readyState===4) {
 						if (req.status===200) {
-							data=req.responseXML || req.responseText;
+							var data=req.responseXML || req.responseText;
 							opt.success.call($.isTen(opt.target)?opt.target:this,data);
 						} else if ($.isFunction(opt.error)) {
 							opt.error.call($.isTen(opt.target)?opt.target:this,req.statusText);
 						}
 					}
+					req.onreadystatechange=null;
 				};
 
 			} else {
@@ -184,7 +203,7 @@
 			return first;
 		},
 		ready:function(func) {
-			document.addEventListener("DOMContentLoaded",func,false);
+			doc.addEventListener("DOMContentLoaded",func,false);
 		},
 		create:function(selector) {
 			// might want to cache these if the same element is created twice
@@ -192,7 +211,7 @@
 				matches=selector.match(regex),
 				type=matches[1],
 				html=matches[2];
-			var element=document.createElement(type);
+			var element=doc.createElement(type);
 			html&&(element.innerHTML=html);
 			return $.find(element);
 		},
@@ -203,7 +222,7 @@
 				selector[0]=orig;
 				selector.length=1; // might need to actually calculate this with .length()
 			} else {
-				var matches=document.querySelectorAll(orig),i,matchesLen=matches.length;
+				var matches=doc.querySelectorAll(orig),i,matchesLen=matches.length;
 				for (i=0;i<matchesLen;i++) {
 					selector[i]=matches[i];
 				}
@@ -212,19 +231,22 @@
 			return selector;
 		},
 		each:function(data,func) {
-			var ret=false;
+			var ret=false,len=data.length,i;
 			if ($.isArray(data)) {
 				ret=true;
-				for (var i=0,dataLen=data.length;i<dataLen;i++) {
+				for (i=0;i<len;i++) {
 					func(i,data[i]);
 				}
 			} else if ($.isObject(data)) {
+				var keys=Object.keys(data);
 				ret=true;
+				/* for (i=0;i<len;i++)
+					func(keys[i],data[key]); */
 				for (key in data) {
 					func(key,data[key]);
 				}
 			}
-			return $.find(ret);
+			return ret;
 		},
 		isDefined:function(data) {
 			return "undefined"!==typeof data;
@@ -265,7 +287,6 @@
 
 	// element methods
 	init.el=ten.prototype={
-		ten:true,
 		addClass:function(classes) {
 			return doClasses(this,classes,"add");
 		},
@@ -301,10 +322,9 @@
 
 		each:function(func) {
 			var keys=Object.keys(this),
-				thatLen=this.length,i;
-			for (i=0;i<thatLen;i++) {
+				len=this.length,i;
+			for (i=0;i<len;i++)
 				func(keys[i],this[i]);
-			}
 			return this;
 		},
 
@@ -378,9 +398,9 @@
 			selector=selector||undefined;
 			if (selector in events) {
 				if (name in events[selector]) {
-					var handlers=events[selector][name];
+					var handlers=events[selector][name],i;
 					for (func in handlers) {
-						for (var i=0;i<length;i++)
+						for (i=0;i<length;i++)
 							this[i].removeEventListener(name,handlers.func,false);
 						keep!==true&&(delete events[selector]);
 					}
@@ -393,9 +413,8 @@
 				url:url,
 				target:this,
 				success:function(data) {
-					for (var i=0,len=this.length;i<len;i++) {
+					for (var i=0,len=this.length;i<len;i++)
 						this[i].innerHTML=data;
-					}
 				},
 				error:function(err) {
 					func.call(this,err);
@@ -404,10 +423,6 @@
 		}
 	};
 
-	function tenInit(selector) {
-		return selector?$.isFunction(selector)?$.ready(selector):($.isString(selector)&&selector.match(/^</))?$.create(selector):$.find(selector):init;
-	}
-
-	window.ten = window.$ = $.extend(tenInit,init.core);
+	window.ten = window.$ = $.extend(tenInit,$);
 
 })(window);
