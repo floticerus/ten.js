@@ -102,38 +102,67 @@
 		return str.replace(/(^\s+|\s+$)/g,"").replace(/\s\s+/g," ");
 	}
 
+	function addParam(url,param) {
+		$.isArray(param)&&(param=arrayToString(param));
+		url=url.indexOf("?") != -1 ? url.split("?")[0]+"?"+param+"&"+url.split("?")[1] : (url.indexOf("#") != -1 ? url.split("#")[0]+"?"+param+"#"+ url.split("#")[1] : url+'?'+param);
+		return url;
+	}
+
 	// core methods
 	init.core=$={
 		ten:true,
-		version:"0.0.9",
+		version:"0.0.10",
 		ajax:function(config) {
 			var opt={
 					url:false,
 					type:"GET",
 					data:false,
-					dataType:"json",
+					dataType:"html",
+					charset:"UTF-8",
 					success:false,
 					error:false,
-					complete:false
+					complete:false,
+					cache:true,
+					target:false
 				},
 				dataTypes={
-					json:"application/json"
+					json:"application/json",
+					jsonp:"application/javascript",
+					html:"text/html",
+					plain:"text/plain"
 				};
 			opt=$.extend(opt,config);
-			var req=new XMLHttpRequest();
-			var url="/json.php?foo=bar";
-			req.open(opt.type,url,true);
-			req.setRequestHeader("Content-Type", dataTypes[opt.dataType]+";charset=UTF-8");
-			req.send();
-			/* if ($.isObject(obj)) {
-				} else {
-				doLog("ajax","parameter must be an object");
-			} */
+			opt.dataType=opt.dataType.toLowerCase();
+			opt.type=opt.type.toUpperCase();
+			opt.type=opt.type.toUpperCase();
+			if (typeof opt.url==="string" && dataTypes.hasOwnProperty(opt.dataType)) {
+				if (opt.cache===false) {
+					var date=new Date();
+					opt.url=addParam(opt.url,"_="+date.getTime());
+				}
+				var req=new XMLHttpRequest(),data;
+				req.open(opt.type,opt.url,true);
+				req.setRequestHeader("Content-Type", dataTypes[opt.dataType]+";charset="+opt.charset);
+				req.send();
+				req.onreadystatechange=function() {
+					if (req.readyState===4) {
+						if (req.status===200) {
+							data=req.responseXML || req.responseText;
+							opt.success.call($.isTen(opt.target)?opt.target:this,data);
+						} else if ($.isFunction(opt.error)) {
+							opt.error.call($.isTen(opt.target)?opt.target:this,req.statusText);
+						}
+					}
+				};
+
+			} else {
+				// error - either url isn't a string or dataType is invalid
+			}
 		},
 		length:function(obj) {
-			var size=0;
+			var size=0,key;
 			if ($.isObject(obj)) {
-				for (var key in obj) {
+				for (key in obj) {
 					obj.hasOwnProperty(key)&&size++;
 				}
 			}
@@ -249,9 +278,9 @@
 		hasClass:function(theClass) {
 			return this[0].classList.contains(theClass);
 		},
-		clone:function() {
+		/* clone:function() {
 			return this.cloneNode(true);
-		},
+		}, */
 		append:function(content) {
 			return modifyHTML(this,content,"beforeend");
 		},
@@ -289,7 +318,8 @@
 		},
 
 		last:function() {
-			return this.length>0?this[this.length-1]:this;
+			var len=this.length;
+			return len>0?this[len-1]:this;
 		},
 
 		show:function() {
@@ -357,6 +387,20 @@
 				}
 			}
 			return this;
+		},
+		load:function(url,func) {
+			$.ajax({
+				url:url,
+				target:this,
+				success:function(data) {
+					for (var i=0,len=this.length;i<len;i++) {
+						this[i].innerHTML=data;
+					}
+				},
+				error:function(err) {
+					func.call(this,err);
+				}
+			});
 		}
 	};
 
@@ -365,5 +409,5 @@
 	}
 
 	window.ten = window.$ = $.extend(tenInit,init.core);
-	
+
 })(window);
