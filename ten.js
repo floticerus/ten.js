@@ -134,7 +134,7 @@
 			opt=$.extend(opt,config);
 			opt.dataType=opt.dataType.toLowerCase();
 			opt.type=opt.type.toUpperCase();
-			opt.type=opt.type.toUpperCase();
+			opt.charset=opt.charset.toUpperCase();
 			if (typeof opt.url==="string" && dataTypes.hasOwnProperty(opt.dataType)) {
 				if (opt.cache===false) {
 					var date=new Date();
