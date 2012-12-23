@@ -115,19 +115,36 @@
 		return url;
 	}
 
+	function doCSS(that,obj) {
+		var cssFix=/^(padding|margin|border)\-(top|right|bottom|left)$/,
+			matches,
+			i=0,
+			len=that.length;
+		for (;i<len;i++) {
+			$.each(obj,function(key,val) {
+				matches=key.match(cssFix);
+				matches&&(key=matches[1]+matches[2].charAt(0).toUpperCase()+matches[2].slice(1));
+				$.isNumeric(val)&&(val+="px");
+				that[i].style[key]=val;
+			});
+		}
+		return that;
+	}
+
 	// core methods
 	init.core=$={
 		version:"0.0.10",
 		getScript:function(url,func) {
-			var script=doc.createElement("script");
+			var script=doc.createElement("script"),
+				where=doc.getElementsByTagName("head")[0] || doc.getElementsByTagName("body")[0];
 			script.type="application/javascript";
 			script.async=true;
 			script.src=url;
 			script.onload=script.onreadystatechange=function() {
-				$.isFunction(func)&&func();
+				func&&func();
 				script.onload=script.onreadystatechange=null;
 			};
-			doc.getElementsByTagName("head")[0].appendChild(script);
+			where.appendChild(script);
 			return script;
 		},
 		ajax:function(config) {
@@ -176,6 +193,7 @@
 
 			} else {
 				// error - either url isn't a string or dataType is invalid
+				opt.error.call($.isTen(opt.target)?opt.target:this,"invalid usage");
 			}
 		},
 		length:function(obj) {
@@ -420,6 +438,14 @@
 					func.call(this,err);
 				}
 			});
+		},
+		css:function(one,two) {
+			if ($.isString(one) && two) {
+				var origOne=one;
+				one={};
+				one[origOne]=two;
+			}
+			return doCSS(this,one);
 		}
 	};
 

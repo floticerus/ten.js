@@ -1,7 +1,7 @@
 ten.js
 ======
 
-A lightweight (~2kb minified & gzipped) JavaScript library. Work began on December 10th, 2012 as a personal experiment with hopes of becoming more.
+A lightweight (~2.4kb minified & gzipped) JavaScript library. Work began on December 10th, 2012 as a personal experiment with hopes of becoming more.
 
 The goal is to provide a minimal set of functions that perform well, is easy to use, and fast.
 
@@ -39,6 +39,7 @@ To keep the code as small and simple as possible, compatibility with Internet Ex
  - [ten.trim()](#tentrim)
  - [.addClass()](#addclass)
  - [.append()](#append)
+ - [.css()](#css)
  - [.each()](#each)
  - [.find()](#find)
  - [.first()](#first)
