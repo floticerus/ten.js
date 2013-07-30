@@ -5,9 +5,7 @@ A lightweight (~2.4kb minified & gzipped) JavaScript library. Work began on Dece
 
 The goal is to provide a minimal set of functions that perform well, is easy to use, and fast.
 
-Modular additions will come in the future.
-
-Currently undergoing major changes, many of the functions are probably not working at the moment.
+This documentation is out of date and may not be entirely accurate.
 
 ## Performance
 
@@ -22,11 +20,17 @@ To keep the code as small and simple as possible, compatibility with Internet Ex
 - [API](#api)
  - [ten()](#ten)
  - [ten.ajax()](#tenajax)
+ - [ten.closest()](#tenclosest)
  - [ten.create()](#tencreate)
+ - [ten.css()](#tencss)
  - [ten.each()](#teneach)
+ - [ten.eq()](#teneq)
  - [ten.extend()](#tenextend)
  - [ten.find()](#tenfind)
  - [ten.getScript()](#tengetscript)
+ - [ten.hasParent()](#tenhasparent)
+ - [ten.height()](#tenheight)
+ - [ten.is()](#tenis)
  - [ten.isArray()](#tenisarray)
  - [ten.isDefined()](#tenisdefined)
  - [ten.isFunction()](#tenisfunction)
@@ -35,14 +39,22 @@ To keep the code as small and simple as possible, compatibility with Internet Ex
  - [ten.isString()](#tenisstring)
  - [ten.isTen()](#tenisten)
  - [ten.length()](#tenlength)
+ - [ten.load()](#tenload)
+ - [ten.offset()](#tenoffset)
+ - [ten.parent()](#tenparent)
+ - [ten.prop()](#tenprop)
  - [ten.ready()](#tenready)
+ - [ten.remove()](#tenremove)
  - [ten.trim()](#tentrim)
+ - [ten.width()](#tenwidth)
  - [.addClass()](#addclass)
  - [.append()](#append)
  - [.css()](#css)
  - [.each()](#each)
  - [.find()](#find)
  - [.first()](#first)
+ - [.getCSS()](#getcss)
+ - [.getScript()](#getscript)
  - [.hasClass()](#hasclass)
  - [.html()](#html)
  - [.last()](#last)
