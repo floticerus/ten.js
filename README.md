@@ -10,9 +10,7 @@ This documentation is out of date and may not be entirely accurate.
 ## Performance
 
 ## Compatibility
-ten.js is primarily intended to work with Google Chrome, Mozilla Firefox, Safari, Opera, and mobile devices such as Android and iPhone.
-
-To keep the code as small and simple as possible, compatibility with Internet Explorer has been skipped, although I'm hoping it will work with IE10.
+ten.js is primarily intended to work with Google Chrome, Mozilla Firefox, Safari, Opera, Internet Explorer 7+, and mobile devices such as Android and iPhone.
 
 #Documentation
 
